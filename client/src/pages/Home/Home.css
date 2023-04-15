@@ -115,6 +115,7 @@ section {
 .header .navbar div,
 .header .navbar a {
   font-size: 1.8rem;
+  display: block;
   color: var(--main-color);
   padding: 1rem 3rem;
   border-radius: 0.5rem;
@@ -215,10 +216,6 @@ section {
   gap: 1.5rem;
   text-align: center;
   align-items: center;
-}
-
-.about .row .image {
-  flex: 1 1 40rem;
 }
 
 .about .row .image img {
@@ -346,6 +343,10 @@ section {
 
 .swiper-pagination-bullets.swiper-pagination-horizontal {
   bottom: 0;
+}
+
+.active {
+  display: block !important;
 }
 
 .swiper-pagination-bullet {

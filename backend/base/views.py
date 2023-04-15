@@ -154,7 +154,7 @@ def Routes(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def Register(request):
-    """Kullanıcı kaydı yapar. email, username, password, password1 verilerini alır."""
+    """Kullanıcı kaydı yapar. email, username, password1, password2 verilerini alır."""
     if request.data:
         mails = [i.email for i in User.objects.all()]
         if request.data.get('email') in mails:

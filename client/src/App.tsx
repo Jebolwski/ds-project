@@ -8,10 +8,9 @@ import Header from "./components/Header/Header";
 import AuthProtect from "./pages/Protected/AuthProtect";
 import Footer from "./components/Footer/Footer";
 import BookRoomRec from "./pages/BookRoomRec/BookRoomRec";
-import Payment from "./pages/Payment/Payment";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { REACT_APP_STRIPE_KEY } from "./config/config";
+import { REACT_APP_STRIPE_KEY, GOOGLE_ID } from "./config/config";
 import CheckOut from "./pages/CheckOut/CheckOut";
 import Success from "./pages/Success/Success";
 import Cancel from "./pages/Cancel/Cancel";
@@ -19,16 +18,13 @@ import Register from "./pages/Register/Register";
 
 const stripe_key = REACT_APP_STRIPE_KEY;
 const stripePromise = loadStripe(stripe_key);
-
-require("dotenv").config();
-
 function App() {
   return (
     <div className="font-sans">
-      <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID || "messi"}>
-        <AuthProvider>
+      <GoogleOAuthProvider clientId={GOOGLE_ID}>
+        <Router>
           <Elements stripe={stripePromise}>
-            <Router>
+            <AuthProvider>
               <Header />
               <Routes>
                 <Route path="/" element={<Home />} />
@@ -42,9 +38,9 @@ function App() {
                 </Route>
               </Routes>
               <Footer />
-            </Router>
+            </AuthProvider>
           </Elements>
-        </AuthProvider>
+        </Router>
       </GoogleOAuthProvider>
     </div>
   );

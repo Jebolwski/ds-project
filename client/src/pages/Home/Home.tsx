@@ -1,14 +1,11 @@
 import AuthContext from "../../context/context";
 import "src/pages/Home/Home.css";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
-import "../../assets/js/home";
+import { useContext, useEffect } from "react";
 import { Navigation, Pagination, EffectCards } from "swiper";
 import Home1 from "../../assets/images/home-img-1.jpg";
 import Home2 from "../../assets/images/home-img-2.jpg";
 import Home3 from "../../assets/images/home-img-3.jpg";
 import Pic1 from "../../assets/images/pic-1.png";
-import Pic2 from "../../assets/images/pic-2.png";
 import Pic3 from "../../assets/images/pic-3.png";
 import Pic4 from "../../assets/images/pic-4.png";
 import Pic5 from "../../assets/images/pic-5.png";
@@ -28,11 +25,19 @@ import Galery3 from "../../assets/images/gallery-img-3.webp";
 import Galery4 from "../../assets/images/gallery-img-4.webp";
 import Galery5 from "../../assets/images/gallery-img-5.webp";
 import Galery6 from "../../assets/images/gallery-img-6.webp";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 
 function Home() {
-  let { user, logout }: any = useContext(AuthContext);
+  useEffect(() => {
+    let box = document.querySelectorAll(".contact .row .faq .box");
+    if (box.length > 0) {
+      box.forEach((faqBox: any) => {
+        faqBox.onclick = () => {
+          faqBox.classList.toggle("active");
+        };
+      });
+    }
+  });
   return (
     <>
       <section className="home" id="home">
@@ -104,7 +109,11 @@ function Home() {
               <p>
                 Yetişkin sayısı <span>*</span>
               </p>
-              <select name="Yetişkin sayısı" className="input" required>
+              <select
+                name="Yetişkin sayısı"
+                className="input h-[50px]"
+                required
+              >
                 <option value="1">1 Yetişkin </option>
                 <option value="2">2 Yetişkin</option>
                 <option value="3">3 Yetişkin</option>
@@ -117,7 +126,7 @@ function Home() {
               <p>
                 Çocuk Sayısı <span>*</span>
               </p>
-              <select name="Çocuk Sayısı" className="input" required>
+              <select name="Çocuk Sayısı" className="input h-[50px]" required>
                 <option value="-">0 Çocuk</option>
                 <option value="1">1 Çocuk</option>
                 <option value="2">2 Çocuk</option>
@@ -131,7 +140,7 @@ function Home() {
               <p>
                 Oda Sayısı <span>*</span>
               </p>
-              <select name="Oda Sayısı" className="input" required>
+              <select name="Oda Sayısı" className="input h-[50px]" required>
                 <option value="1">1 Oda </option>
                 <option value="2">2 Oda</option>
                 <option value="3">3 Oda</option>
@@ -151,50 +160,46 @@ function Home() {
       </section>
 
       <section className="about" id="about">
-        <div className="row">
+        <div className="row flex justify-center">
           <div className="image">
-            <img src={About1} alt="" />
+            <img src={About1} />
           </div>
-          <div className="content">
-            <h3>best staff</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi
-              laborum maxime eius aliquid temporibus unde?
-            </p>
+          <div className="content col">
+            <h3>Uzman Kadro</h3>
+            <p>Güler yüzlü ve tecrübeli kadromuz her daim hizmetinizde.</p>
             <a href="#reservation" className="btn">
-              make a reservation
+              Rezervasyon
             </a>
           </div>
         </div>
 
-        <div className="row revers">
+        <div className="row revers flex justify-center">
           <div className="image">
-            <img src={About2} alt="" />
+            <img src={About2} />
           </div>
           <div className="content">
-            <h3>best foods</h3>
+            <h3>Lezzetli Yemekler </h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi
-              laborum maxime eius aliquid temporibus unde?
+              Ünlü şeflerimizin hazırladığı Türk ve Dünya mutfaklarından eşsiz
+              menüleri deneyimleyin.
             </p>
             <a href="#contact" className="btn">
-              contact us
+              İletişime Geçin
             </a>
           </div>
         </div>
 
-        <div className="row">
+        <div className="row flex justify-center">
           <div className="image">
             <img src={About3} alt="" />
           </div>
           <div className="content">
-            <h3>swimming pool</h3>
+            <h3>Yüzme Havuzu</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi
-              laborum maxime eius aliquid temporibus unde?
+              Açık, kapalı ve çocuk havuzlarımızla eğlenceyi doruklarda yaşayın.
             </p>
             <a href="#availability" className="btn">
-              check availability
+              Uygun Tarihler
             </a>
           </div>
         </div>
@@ -203,57 +208,41 @@ function Home() {
       <section className="services">
         <div className="box-container">
           <div className="box">
-            <img src={Icon1} />
-            <h3>food & drinks</h3>
+            <img src={Icon1} alt="" />
+            <h3>Yemek & İçecek</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero,
-              sunt?
+              Türk ve Dünya mutfaklarından kahvaltı, öğle ve akşam yemekleri
             </p>
           </div>
 
           <div className="box">
             <img src={Icon2} alt="" />
-            <h3>outdoor dining</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero,
-              sunt?
-            </p>
+            <h3>Açık Havada Yemek</h3>
+            <p>Deniz manzarası eşliğinde akşam yemeği fırsatı</p>
           </div>
 
           <div className="box">
             <img src={Icon3} alt="" />
-            <h3>beach view</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero,
-              sunt?
-            </p>
+            <h3>Deniz Manzarası</h3>
+            <p>Her odadan görünen eşsiz deniz manzarası</p>
           </div>
 
           <div className="box">
             <img src={Icon4} alt="" />
-            <h3>decorations</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero,
-              sunt?
-            </p>
+            <h3>Dekorasyon</h3>
+            <p>Özel olarak dekore edilmiş odalar</p>
           </div>
 
           <div className="box">
             <img src={Icon5} alt="" />
-            <h3>swimming pool</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero,
-              sunt?
-            </p>
+            <h3>Yüzme Havuzu</h3>
+            <p>Açık, kapalı ve çocuk havuzları</p>
           </div>
 
           <div className="box">
             <img src={Icon6} alt="" />
-            <h3>resort beach</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero,
-              sunt?
-            </p>
+            <h3>Plaj</h3>
+            <p>Tertemiz deniz ve eşine az rastlanan kumsallar</p>
           </div>
         </div>
       </section>
