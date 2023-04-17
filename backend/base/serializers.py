@@ -36,7 +36,7 @@ class RoomSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Room
-        fields = ['category', 'image1', 'image2', 'image3', 'image4']
+        fields = ['category', 'image1', 'image2', 'image3', 'image4', 'id']
 
     def get_category(self, room):
         serializer = CategorySerializer(room.category, many=False)

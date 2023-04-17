@@ -119,6 +119,7 @@ section {
   color: var(--main-color);
   padding: 1rem 3rem;
   border-radius: 0.5rem;
+  transition: 0.2s ease;
 }
 
 .header .navbar a:hover,
@@ -126,6 +127,7 @@ section {
   cursor: pointer;
   background-color: var(--main-color);
   color: var(--sub-color);
+  transition: 0.2s ease;
 }
 
 .home .box img {

@@ -32,7 +32,11 @@ function Header() {
           </a>
           <div id="menu-btn" className="fas fa-bars"></div>
         </div>
-
+        {user && (
+          <div className="text-[#dcc69c] text-3xl mt-8">
+            Hoşgeldin, {user.username}.
+          </div>
+        )}
         <nav className="navbar">
           <Link to={"/"}>Anasayfa</Link>
           <div>Hakkında</div>

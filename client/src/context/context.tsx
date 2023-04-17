@@ -1,6 +1,8 @@
 import { createContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 const AuthContext = createContext({});
 
 export default AuthContext;
@@ -47,6 +49,7 @@ export const AuthProvider = ({ children }: any) => {
         setKey(data["key"]);
         getUserByKey(data["key"]);
         localStorage.setItem("key", data["key"]);
+        toast.success("Başarıyla giriş yapıldı. 😄");
       }
     });
   };
@@ -112,6 +115,7 @@ export const AuthProvider = ({ children }: any) => {
       localStorage.removeItem("key");
       localStorage.removeItem("nkey");
       localStorage.removeItem("profile");
+      toast.success("Başarıyla çıkış yapıldı. 🚀");
     });
   };
 

@@ -1,11 +1,11 @@
-import AuthContext from "../../context/context";
 import "src/pages/Home/Home.css";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Navigation, Pagination, EffectCards } from "swiper";
 import Home1 from "../../assets/images/home-img-1.jpg";
 import Home2 from "../../assets/images/home-img-2.jpg";
 import Home3 from "../../assets/images/home-img-3.jpg";
 import Pic1 from "../../assets/images/pic-1.png";
+import Pic2 from "../../assets/images/pic-2.png";
 import Pic3 from "../../assets/images/pic-3.png";
 import Pic4 from "../../assets/images/pic-4.png";
 import Pic5 from "../../assets/images/pic-5.png";
@@ -26,6 +26,8 @@ import Galery4 from "../../assets/images/gallery-img-4.webp";
 import Galery5 from "../../assets/images/gallery-img-5.webp";
 import Galery6 from "../../assets/images/gallery-img-6.webp";
 import { Swiper, SwiperSlide } from "swiper/react";
+import HotelContext from "../../context/hotelcontext";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   useEffect(() => {
@@ -38,6 +40,15 @@ function Home() {
       });
     }
   });
+
+  const { sendMessage } = useContext(HotelContext);
+
+  let navigate = useNavigate();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [adultCount, setAdultCount] = useState();
+  const [childCount, setChildCount] = useState();
+
   return (
     <>
       <section className="home" id="home">
@@ -56,9 +67,7 @@ function Home() {
               <h3 className="text-[#DCC69C] text-[2.4rem] font-semibold">
                 Lüks Odalar
               </h3>
-              <a href="#availability" className="btn">
-                Kullanılabirliği kontrol et
-              </a>
+              <a className="btn">Kullanılabirliği kontrol et</a>
             </div>
           </SwiperSlide>
           <SwiperSlide>
@@ -67,10 +76,10 @@ function Home() {
             </div>
             <div className="flex justify-between items-center">
               <h3 className="text-[#DCC69C] text-[2.4rem] font-semibold">
-                Foods And Drinks
+                Yiyecek ve içecekler
               </h3>
               <a href="#reservation" className="btn">
-                Make A Reservation
+                Rezervasyon Yap
               </a>
             </div>
           </SwiperSlide>
@@ -80,10 +89,10 @@ function Home() {
             </div>
             <div className="flex justify-between items-center">
               <h3 className="text-[#DCC69C] text-[2.4rem] font-semibold">
-                Luxurious Halls
+                Lüks Salonlar
               </h3>
               <a href="#contact" className="btn">
-                contact Us
+                İletişime Geç
               </a>
             </div>
           </SwiperSlide>
@@ -91,29 +100,44 @@ function Home() {
       </section>
 
       <section className="availability" id="availability">
-        <form action="" method="post">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            let start: Date = e.target.check_in.value;
+            let end: Date = e.target.check_out.value;
+            let adult: number = e.target.adult.value;
+            let children: number = e.target.children.value;
+            navigate(`/search-room/${start}/${end}/${children}/${adult}`);
+          }}
+        >
           <div className="flex">
             <div className="box">
               <p>
                 Rezervasyon Giriş <span>*</span>
               </p>
-              <input type="date" name="check_in" className="input" required />
+              <input
+                type="date"
+                name="check_in"
+                className="input h-[50px]"
+                required
+              />
             </div>
             <div className="box">
               <p>
                 Rezervasyon Çıkış <span>*</span>
               </p>
-              <input type="date" name="check_out" className="input" required />
+              <input
+                type="date"
+                name="check_out"
+                className="input h-[50px]"
+                required
+              />
             </div>
             <div className="box">
               <p>
                 Yetişkin sayısı <span>*</span>
               </p>
-              <select
-                name="Yetişkin sayısı"
-                className="input h-[50px]"
-                required
-              >
+              <select name="adult" className="input h-[50px]" required>
                 <option value="1">1 Yetişkin </option>
                 <option value="2">2 Yetişkin</option>
                 <option value="3">3 Yetişkin</option>
@@ -126,8 +150,8 @@ function Home() {
               <p>
                 Çocuk Sayısı <span>*</span>
               </p>
-              <select name="Çocuk Sayısı" className="input h-[50px]" required>
-                <option value="-">0 Çocuk</option>
+              <select name="children" className="input h-[50px]" required>
+                <option value="0">0 Çocuk</option>
                 <option value="1">1 Çocuk</option>
                 <option value="2">2 Çocuk</option>
                 <option value="3">3 Çocuk</option>
@@ -152,7 +176,7 @@ function Home() {
           </div>
           <input
             type="submit"
-            value="Kullanılabirliği kontrol et"
+            value="Müsaitliği kontrol et"
             name="check"
             className="btn"
           />
@@ -247,72 +271,6 @@ function Home() {
         </div>
       </section>
 
-      <section className="reservation" id="reservation">
-        <form action="" method="post">
-          <h3>rezervasyon Yaptır</h3>
-          <div className="flex">
-            <div className="box">
-              <p>
-                giriş tarihi <span>*</span>
-              </p>
-              <input type="date" name="check_in" className="input" required />
-            </div>
-            <div className="box">
-              <p>
-                çıkış tarihi <span>*</span>
-              </p>
-              <input type="date" name="check_out" className="input" required />
-            </div>
-            <div className="box">
-              <p>
-                yetişkin <span>*</span>
-              </p>
-              <select name="adults" className="input" required>
-                <option value="1">1 yetişkin </option>
-                <option value="2">2 yetişkin</option>
-                <option value="3">3 yetişkin</option>
-                <option value="4">4 yetişkin</option>
-                <option value="5">5 yetişkin</option>
-                <option value="6">6 yetişkin</option>
-              </select>
-            </div>
-            <div className="box">
-              <p>
-                çocuklar <span>*</span>
-              </p>
-              <select name="childs" className="input" required>
-                <option value="-">0 çocuk</option>
-                <option value="1">1 çocuk </option>
-                <option value="2">2 çocuk </option>
-                <option value="3">3 çocuk </option>
-                <option value="4">4 çocuk </option>
-                <option value="5">5 çocuk </option>
-                <option value="6">6 çocuk </option>
-              </select>
-            </div>
-            <div className="box">
-              <p>
-                oda<span>*</span>
-              </p>
-              <select name="rooms" className="input" required>
-                <option value="1">1 oda</option>
-                <option value="2">2 oda</option>
-                <option value="3">3 oda</option>
-                <option value="4">4 oda</option>
-                <option value="5">5 oda</option>
-                <option value="6">6 oda</option>
-              </select>
-            </div>
-          </div>
-          <input
-            type="submit"
-            value="check availability"
-            name="check"
-            className="btn"
-          />
-        </form>
-      </section>
-
       <section className="gallery" id="gallery">
         <Swiper
           modules={[Pagination, EffectCards]}
@@ -346,7 +304,16 @@ function Home() {
 
       <section className="contact" id="contact">
         <div className="row">
-          <form action="" method="post">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              let name: string = e.target.name.value;
+              let email: string = e.target.email.value;
+              let number: number = e.target.number.value;
+              let message: string = e.target.msg.value;
+              sendMessage(name, email, number, message);
+            }}
+          >
             <h3>Bize mesaj gönderin</h3>
             <input
               type="text"
@@ -439,50 +406,57 @@ function Home() {
           <SwiperSlide>
             <div className="swiper-slide box grid place-items-center">
               <img src={Pic1} />
-              <h3>john deo</h3>
+              <h3>Mert Gökmen</h3>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptates blanditiis optio dignissimos eaque aliquid explicabo.
+                Temizlik açısından iyi bir oteldi. Her yönüyle tavsiye ederim.
+                Otelde giriş ve çıkış işlemleri çok hızlı şekilde yapıldı.
+                Personeller çok güler yüzlüydü.
               </p>
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className="swiper-slide box grid place-items-center">
               <img src={Pic3} alt="" />
-              <h3>john deo</h3>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptates blanditiis optio dignissimos eaque aliquid explicabo.
-              </p>
+              <h3>Edanur Yıldız</h3>
+              <p>Konum,odaların modern tasarımı ve rahatlığı çok güzeldi.</p>
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className="swiper-slide box grid place-items-center">
               <img src={Pic4} alt="" />
-              <h3>john deo</h3>
+              <h3>Emre Aydın</h3>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptates blanditiis optio dignissimos eaque aliquid explicabo.
+                Konum olarak uygun bir oteldi. Otelin temizliği idare ederdi.
+                Otelde giriş çıkış işlemleri rahat bir şekilde yapıldı.
+                Personeller gayet iyiydi.
               </p>
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className="swiper-slide box grid place-items-center">
               <img src={Pic5} alt="" />
-              <h3>john deo</h3>
+              <h3>Gülsüm Küntür</h3>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptates blanditiis optio dignissimos eaque aliquid explicabo.
+                Otel gayet iyiydi bu sezonda kullanılacak en iyi yerlerden biri.
+                Yemek ve temizlik konusunda da gayet iyiydi. Personel konusunda
+                hiç sıkıntı yaşamadık.
               </p>
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className="swiper-slide box grid place-items-center">
               <img src={Pic6} alt="" />
-              <h3>john deo</h3>
+              <h3>Tahir Ekrem</h3>
+              <p>Tam bir fiyat performans yeri</p>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="swiper-slide box grid place-items-center">
+              <img src={Pic2} alt="" />
+              <h3>Tuğba Kır</h3>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptates blanditiis optio dignissimos eaque aliquid explicabo.
+                Herşey çok güzeldi, bahar hanım ekstra yardımcı oldu. ilgi ve
+                alakası ve yardımseverliği için çok teşekkür ediyorum
               </p>
             </div>
           </SwiperSlide>

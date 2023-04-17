@@ -197,7 +197,7 @@ def GetARoom(request, id):
 @permission_classes([IsAdminUser])
 def AddRoom(request):
     """
-        Otele oda ekler. max_adult, max_children, image1,
+        Otele oda ekler. image1,
         image2, image3, image4 verilerini alır.
     """
     if request.data.get('image1') == None and request.data.get('image2') == None and request.data.get('image3') == None and request.data.get('image4') == None:
@@ -328,6 +328,7 @@ def SearchRoom(request):
     result = Stack()
     for i in stack.stack:
         if i != None or i != "":
+            print(i)
             serializer = RoomSerializer(i, many=False)
             result.push(serializer.data)
 

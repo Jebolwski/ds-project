@@ -100,14 +100,11 @@ RATE = [
 
 class Feedback(models.Model):
     """Resepsiyonist modeli room, user, text, food, room, service, location verilerini içerir."""
-    room = models.ManyToOneRel(Room, to="self", field_name="Room")
-    user = models.ForeignKey(
-        User, blank=True, null=True, on_delete=models.SET_NULL)
+    name_surname = models.CharField(
+        max_length=120, blank=False, null=False)
+    email = models.EmailField(blank=False, null=False)
+    number = models.CharField(max_length=20, null=False, blank=False)
     text = models.CharField(max_length=240, null=False, blank=False)
-    food = models.CharField(max_length=2, choices=RATE, default="6")
-    room = models.CharField(max_length=2, choices=RATE, default="6")
-    service = models.CharField(max_length=2, choices=RATE, default="6")
-    location = models.CharField(max_length=2, choices=RATE, default="6")
 
     def __str__(self):
         if self.user:
