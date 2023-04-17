@@ -41,7 +41,7 @@ function Home() {
     }
   });
 
-  const { sendMessage } = useContext(HotelContext);
+  const { sendMessage }: any = useContext(HotelContext);
 
   let navigate = useNavigate();
   const [startDate, setStartDate] = useState();
@@ -312,6 +312,10 @@ function Home() {
               let number: number = e.target.number.value;
               let message: string = e.target.msg.value;
               sendMessage(name, email, number, message);
+              e.target.msg.value = "";
+              e.target.email.value = "";
+              e.target.number.value = "";
+              e.target.name.value = "";
             }}
           >
             <h3>Bize mesaj gönderin</h3>

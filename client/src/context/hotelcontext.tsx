@@ -39,24 +39,24 @@ export const HotelProvider = ({ children }: any) => {
     number: number,
     message: string
   ) => {
-    fetch(
-      `http://127.0.0.1:8000/api/room/search?start=${start}&end=${end}&children=${children}&adult=${adult}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: name,
-          email: email,
-          number: number,
-          message: message,
-        }),
-      }
-    ).then(async (resp: Response) => {
-      if (resp.status == 200) {
+    fetch(`http://127.0.0.1:8000/api/message/send`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        mail: email,
+        number: number,
+        message: message,
+      }),
+    }).then(async (resp: Response) => {
+      if (resp.status === 200) {
         let data: any = await resp.json();
-        setSearchedRooms(data.data);
+        toast.success(data.msg_tr);
+      } else if (resp.status === 40) {
+        let data: any = await resp.json();
+        toast.error(data.msg_tr);
       }
     });
   };

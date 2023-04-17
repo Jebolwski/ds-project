@@ -468,16 +468,17 @@ def RemoveBooking(request, id):
 @authentication_classes([TokenAuthentication])
 @permission_classes([AllowAny])
 def FeedbackRoom(request):
-    """Geri dönüş yaptırır.Room, text, user*, food*, location*, service* verilerini alır."""
-    if request.data.get('room') == None:
-        return Response({"msg_en": "You didnt enter room. 🥲", "msg_tr": "Oda verisini eklemedin. 🥲"}, status=400)
+    """Geri dönüş yaptırır.Room, text, name_surname, email, number verilerini alır."""
+    if request.data.get('name_surname') == None:
+        return Response({"msg_en": "You didnt enter your name. 🥲", "msg_tr": "Adını girmedin. 🥲"}, status=400)
+    if request.data.get('email') == None:
+        return Response({"msg_en": "You didnt enter your email. 😥", "msg_tr": "Emailini girmedin. 😥"}, status=400)
+    if request.data.get('number') == None:
+        return Response({"msg_en": "You didnt enter your number. 🤨", "msg_tr": "Numaranı girmedin. 🤨"}, status=400)
     if request.data.get('text') == None:
-        return Response({"msg_en": "You didnt enter text. 🥲", "msg_tr": "Metin verisini eklemedin. 🥲"}, status=400)
+        return Response({"msg_en": "You didnt enter text. 😒", "msg_tr": "Metni girmedin. 😒"}, status=400)
 
-    data = request.data.copy()
-    if request.user:
-        data['user'] = request.user.id
-    serializer = FeedbackSerializer(data=data)
+    serializer = FeedbackSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response({"msg_en": "Your feedback has been saved. 🚀", "msg_tr": "Geri bildirimin kaydedildi. 🚀", "data": serializer.data}, status=200)

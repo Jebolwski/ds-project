@@ -69,6 +69,9 @@ class Message(models.Model):
     name = models.CharField(null=False, blank=False, max_length=70)
     number = models.CharField(max_length=12, null=False, blank=False)
 
+    def __str__(self):
+        return self.name + " | " + self.message[:40]+"..."
+
 
 class Receptionist(models.Model):
     """Resepsiyonist modeli user verilerini içerir."""
@@ -100,11 +103,14 @@ RATE = [
 
 class Feedback(models.Model):
     """Resepsiyonist modeli room, user, text, food, room, service, location verilerini içerir."""
-    name_surname = models.CharField(
-        max_length=120, blank=False, null=False)
-    email = models.EmailField(blank=False, null=False)
-    number = models.CharField(max_length=20, null=False, blank=False)
+    room = models.ManyToOneRel(Room, to="self", field_name="Room")
+    user = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.SET_NULL)
     text = models.CharField(max_length=240, null=False, blank=False)
+    food = models.CharField(max_length=2, choices=RATE, default="6")
+    room = models.CharField(max_length=2, choices=RATE, default="6")
+    service = models.CharField(max_length=2, choices=RATE, default="6")
+    location = models.CharField(max_length=2, choices=RATE, default="6")
 
     def __str__(self):
         if self.user:
