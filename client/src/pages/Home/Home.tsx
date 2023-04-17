@@ -249,58 +249,58 @@ function Home() {
 
       <section className="reservation" id="reservation">
         <form action="" method="post">
-          <h3>make a reservation</h3>
+          <h3>rezervasyon Yaptır</h3>
           <div className="flex">
             <div className="box">
               <p>
-                check in <span>*</span>
+                giriş tarihi <span>*</span>
               </p>
               <input type="date" name="check_in" className="input" required />
             </div>
             <div className="box">
               <p>
-                check out <span>*</span>
+                çıkış tarihi <span>*</span>
               </p>
               <input type="date" name="check_out" className="input" required />
             </div>
             <div className="box">
               <p>
-                adults <span>*</span>
+                yetişkin <span>*</span>
               </p>
               <select name="adults" className="input" required>
-                <option value="1">1 adult</option>
-                <option value="2">2 adults</option>
-                <option value="3">3 adults</option>
-                <option value="4">4 adults</option>
-                <option value="5">5 adults</option>
-                <option value="6">6 adults</option>
+                <option value="1">1 yetişkin </option>
+                <option value="2">2 yetişkin</option>
+                <option value="3">3 yetişkin</option>
+                <option value="4">4 yetişkin</option>
+                <option value="5">5 yetişkin</option>
+                <option value="6">6 yetişkin</option>
               </select>
             </div>
             <div className="box">
               <p>
-                childs <span>*</span>
+                çocuklar <span>*</span>
               </p>
               <select name="childs" className="input" required>
-                <option value="-">0 child</option>
-                <option value="1">1 child</option>
-                <option value="2">2 childs</option>
-                <option value="3">3 childs</option>
-                <option value="4">4 childs</option>
-                <option value="5">5 childs</option>
-                <option value="6">6 childs</option>
+                <option value="-">0 çocuk</option>
+                <option value="1">1 çocuk </option>
+                <option value="2">2 çocuk </option>
+                <option value="3">3 çocuk </option>
+                <option value="4">4 çocuk </option>
+                <option value="5">5 çocuk </option>
+                <option value="6">6 çocuk </option>
               </select>
             </div>
             <div className="box">
               <p>
-                rooms <span>*</span>
+                oda<span>*</span>
               </p>
               <select name="rooms" className="input" required>
-                <option value="1">1 room</option>
-                <option value="2">2 rooms</option>
-                <option value="3">3 rooms</option>
-                <option value="4">4 rooms</option>
-                <option value="5">5 rooms</option>
-                <option value="6">6 rooms</option>
+                <option value="1">1 oda</option>
+                <option value="2">2 oda</option>
+                <option value="3">3 oda</option>
+                <option value="4">4 oda</option>
+                <option value="5">5 oda</option>
+                <option value="6">6 oda</option>
               </select>
             </div>
           </div>
@@ -347,19 +347,19 @@ function Home() {
       <section className="contact" id="contact">
         <div className="row">
           <form action="" method="post">
-            <h3>send us message</h3>
+            <h3>Bize mesaj gönderin</h3>
             <input
               type="text"
               name="name"
               required
-              placeholder="enter your name"
+              placeholder="isim ve soyisminizi girin"
               className="box"
             />
             <input
               type="email"
               name="email"
               required
-              placeholder="enter your email"
+              placeholder="email adresinizi girin"
               className="box"
             />
             <input
@@ -368,55 +368,57 @@ function Home() {
               required
               min="0"
               max="9999999999"
-              placeholder="enter your number"
+              placeholder="numaranızı girin"
               className="box"
             />
             <textarea
               name="msg"
               className="box"
               required
-              placeholder="enter your message"
+              placeholder="mesajınızı girin"
+              cols={30}
+              rows={10}
             ></textarea>
             <input
               type="submit"
-              value="send message"
+              value="mesajı gönder"
               name="send"
               className="btn"
             />
           </form>
 
           <div className="faq">
-            <h3 className="title">frequently asked questions</h3>
+            <h3 className="title">SIKÇA SORULAN SORULAR</h3>
             <div className="box active">
-              <h3>how to cancel?</h3>
+              <h3>Nasıl iptal ederim?</h3>
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus
                 sunt aspernatur excepturi eos! Quibusdam, sapiente.
               </p>
             </div>
             <div className="box">
-              <h3>is there any vacancy?</h3>
+              <h3>Boş oda var mı?</h3>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa
                 ipsam neque quaerat mollitia ratione? Soluta!
               </p>
             </div>
             <div className="box">
-              <h3>what are payment methods?</h3>
+              <h3>Ödeme yöntemleri neler?</h3>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa
                 ipsam neque quaerat mollitia ratione? Soluta!
               </p>
             </div>
             <div className="box">
-              <h3>how to claim coupons codes?</h3>
+              <h3>Kupon kodumu nasıl kullanabilirim?</h3>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa
                 ipsam neque quaerat mollitia ratione? Soluta!
               </p>
             </div>
             <div className="box">
-              <h3>what are the age requirements?</h3>
+              <h3>Yaş gereksinimi nedir?</h3>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa
                 ipsam neque quaerat mollitia ratione? Soluta!
