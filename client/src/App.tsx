@@ -19,6 +19,7 @@ import Register from "./pages/Register/Register";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SearchRoom from "./pages/SearchRoom/SearchRoom";
+import RezervationDetail from "./pages/RezervationDetail/RezervationDetail";
 
 const stripe_key = REACT_APP_STRIPE_KEY;
 const stripePromise = loadStripe(stripe_key);
@@ -36,6 +37,11 @@ function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="/bookrec" element={<BookRoomRec />} />
                   <Route path="/checkout/" index element={<CheckOut />} />
+                  <Route
+                    path="/rezervation/:id"
+                    index
+                    element={<RezervationDetail />}
+                  />
                   <Route path="/checkout/success/" element={<Success />} />
                   <Route path="/checkout/failed/" element={<Cancel />} />
                   <Route

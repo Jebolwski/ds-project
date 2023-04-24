@@ -54,20 +54,17 @@ export const AuthProvider = ({ children }: any) => {
     });
   };
 
-  const login = (username: string, password: string) => {
-    let resp: Promise<Response | void> = fetch(
-      "http://127.0.0.1:8000/api/auth/login/",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
-      }
-    ).then(async (resp: Response) => {
+  const login = async (username: string, password: string) => {
+    await fetch("http://127.0.0.1:8000/api/auth/login/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    }).then(async (resp: Response) => {
       if (resp.status == 200) {
         let data: any = await resp.json();
         setKey(data["key"]);

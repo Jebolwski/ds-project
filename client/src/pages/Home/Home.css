@@ -164,7 +164,6 @@ section {
 .swiper-button-prev {
   padding: 3rem 2rem;
   background-color: var(--white);
-  top: 40%;
   opacity: 0.7;
 }
 
@@ -399,7 +398,7 @@ section {
 }
 
 .contact .row form .box::placeholder {
-  color: rgba(220, 198, 156, 0.6);
+  color: #dcc69c99;
 }
 
 .contact .row form textarea {
@@ -549,7 +548,7 @@ section {
 
   .swiper-button-next,
   .swiper-button-prev {
-    top: 35%;
+    top: 45%;
   }
 }
 

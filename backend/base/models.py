@@ -27,9 +27,10 @@ class RoomCategory(models.Model):
     max_adult = models.IntegerField(null=False, blank=False)
     max_children = models.IntegerField(null=False, blank=False)
     desc = models.TextField(max_length=400, null=False, blank=True)
+    price = models.IntegerField(null=False, blank=False)
 
     def __str__(self):
-        return self.name
+        return self.name+" | "+str(self.price)+"tl"
 
 
 class Room(models.Model):
