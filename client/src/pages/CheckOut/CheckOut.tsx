@@ -14,7 +14,7 @@ const CheckOut = () => {
                 <input
                   type="text"
                   placeholder="adı soyadı"
-                  className="bg-transparent w-full placeholder-[#dcc69c99] border-b p-2 py-3 text-[1.8rem] selection:text-[#2b1103] text-[#dcc69c] border-[#dcc69c] mb-1"
+                  className="bg-transparent w-full placeholder-[#dcc69c99] border-b p-2 py-3 text-[1.8rem] selection:text-[#2b1103] text-[#dcc69c] border-[#dcc69c4d] mb-1"
                 />
               </div>
               <div className="my-1">
@@ -22,7 +22,7 @@ const CheckOut = () => {
                   type="text"
                   maxLength={11}
                   placeholder="tc kimlik no"
-                  className="bg-transparent w-full placeholder-[#dcc69c99] border-b p-2 py-3 text-[1.8rem] selection:text-[#2b1103] text-[#dcc69c] border-[#dcc69c] mb-1"
+                  className="bg-transparent w-full placeholder-[#dcc69c99] border-b p-2 py-3 text-[1.8rem] selection:text-[#2b1103] text-[#dcc69c] border-[#dcc69c4d] mb-1"
                 />
               </div>
             </div>
@@ -33,7 +33,7 @@ const CheckOut = () => {
                 <input
                   type="text"
                   placeholder="adı soyadı"
-                  className="bg-transparent w-full placeholder-[#dcc69c99] border-b p-2 py-3 text-[1.8rem] selection:text-[#2b1103] text-[#dcc69c] border-[#dcc69c] mb-1"
+                  className="bg-transparent w-full placeholder-[#dcc69c99] border-b p-2 py-3 text-[1.8rem] selection:text-[#2b1103] text-[#dcc69c] border-[#dcc69c4d] mb-1"
                 />
               </div>
               <div className="my-1">
@@ -41,7 +41,7 @@ const CheckOut = () => {
                   type="text"
                   maxLength={11}
                   placeholder="tc kimlik no"
-                  className="bg-transparent w-full placeholder-[#dcc69c99] border-b p-2 py-3 text-[1.8rem] selection:text-[#2b1103] text-[#dcc69c] border-[#dcc69c] mb-1"
+                  className="bg-transparent w-full placeholder-[#dcc69c99] border-b p-2 py-3 text-[1.8rem] selection:text-[#2b1103] text-[#dcc69c] border-[#dcc69c4d] mb-1"
                 />
               </div>
             </div>
@@ -52,7 +52,7 @@ const CheckOut = () => {
                 <input
                   type="text"
                   placeholder="adı soyadı"
-                  className="bg-transparent w-full placeholder-[#dcc69c99] border-b p-2 py-3 text-[1.8rem] selection:text-[#2b1103] text-[#dcc69c] border-[#dcc69c] mb-1"
+                  className="bg-transparent w-full placeholder-[#dcc69c99] border-b p-2 py-3 text-[1.8rem] selection:text-[#2b1103] text-[#dcc69c] border-[#dcc69c4d] mb-1"
                 />
               </div>
               <div className="flex items-center gap-5">
@@ -61,7 +61,7 @@ const CheckOut = () => {
                     type="text"
                     maxLength={11}
                     placeholder="tc kimlik no"
-                    className="bg-transparent w-full placeholder-[#dcc69c99] border-b p-2 py-3 text-[1.8rem] selection:text-[#2b1103] text-[#dcc69c] border-[#dcc69c] mb-1"
+                    className="bg-transparent w-full placeholder-[#dcc69c99] border-b p-2 py-3 text-[1.8rem] selection:text-[#2b1103] text-[#dcc69c] border-[#dcc69c4d] mb-1"
                   />
                 </div>
                 <div className="my-1 flex-1">
@@ -69,7 +69,7 @@ const CheckOut = () => {
                     type="number"
                     maxLength={2}
                     placeholder="yaş"
-                    className="bg-transparent w-full placeholder-[#dcc69c99] border-b p-2 py-3 text-[1.8rem] selection:text-[#2b1103] text-[#dcc69c] border-[#dcc69c] mb-1"
+                    className="bg-transparent w-full placeholder-[#dcc69c99] border-b p-2 py-3 text-[1.8rem] selection:text-[#2b1103] text-[#dcc69c] border-[#dcc69c4d] mb-1"
                   />
                 </div>
               </div>
