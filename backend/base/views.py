@@ -17,6 +17,7 @@ import datetime
 from django.shortcuts import redirect
 import stripe
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 
 
 class Node:
@@ -579,6 +580,15 @@ def Payment(request):
         print(e)
         print("==============")
         return e
+
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminUser])
+def GetBooking(request, id):
+    booking = get_object_or_404(Booking, id=id)
+    data = BookingSerializer(booking, many=False)
+    return Response({"data": data.data}, status=200)
 
 
 def WebHook(request):
