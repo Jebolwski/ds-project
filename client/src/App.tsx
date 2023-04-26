@@ -22,6 +22,9 @@ import SearchRoom from "./pages/SearchRoom/SearchRoom";
 import RezervationDetail from "./pages/RezervationDetail/RezervationDetail";
 import AddRoom from "./pages/AddRoom/AddRoom";
 import AddRoomCategory from "./pages/AddRoomCategory/AddRoomCategory";
+import ReceptionistProtect from "./pages/Protected/ReceptionistProtect";
+import SuperUserProtect from "./pages/Protected/SuperUserProtect";
+import DeleteRoom from "./pages/DeleteRoom/DeleteRoom";
 
 const stripe_key = REACT_APP_STRIPE_KEY;
 const stripePromise = loadStripe(stripe_key);
@@ -39,23 +42,37 @@ function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="/bookrec" element={<BookRoomRec />} />
                   <Route path="/checkout/" index element={<CheckOut />} />
-                  <Route
-                    path="/rezervation/:id"
-                    element={<RezervationDetail />}
-                  />
+                  {/* Sadece Yönetici */}
+                  <Route element={<SuperUserProtect />}>
+                    {/* Oda Silme */}
+                    <Route path="/room/:id/delete" element={<DeleteRoom />} />
+                  </Route>
+                  {/* Sadece Resepsiyon ve Yönetici */}
+                  <Route element={<ReceptionistProtect />}>
+                    {/* Rezervasyon Detay */}
+                    <Route
+                      path="/rezervation/:id"
+                      element={<RezervationDetail />}
+                    />
+                    {/* Oda Ekle */}
+                    <Route path="/room/add/" element={<AddRoom />} />
+                    {/* Kategori Ekle */}
+                    <Route
+                      path="/room-category/add/"
+                      element={<AddRoomCategory />}
+                    />
+                  </Route>
                   <Route path="/checkout/success/" element={<Success />} />
-                  <Route path="/room/add/" element={<AddRoom />} />
-                  <Route
-                    path="/room-category/add/"
-                    element={<AddRoomCategory />}
-                  />
                   <Route path="/checkout/failed/" element={<Cancel />} />
                   <Route
                     path="/search-room/:start/:end/:children/:adult"
                     element={<SearchRoom />}
                   />
+                  {/* Sadece Giriş Yapmamışlar */}
                   <Route element={<AuthProtect />}>
+                    {/* Giriş */}
                     <Route path="/login" element={<Login />} />
+                    {/* Kayıt */}
                     <Route path="/register" element={<Register />} />
                   </Route>
                 </Routes>

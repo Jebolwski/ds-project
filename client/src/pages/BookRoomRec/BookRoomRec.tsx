@@ -43,7 +43,6 @@ function BookRoomRec() {
         ages: createagesList(),
       }),
     });
-    console.log(await resp.json());
   };
 
   function removeAgeInput() {

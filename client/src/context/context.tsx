@@ -1,16 +1,16 @@
 import { createContext, useState, useEffect } from "react";
-import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { User as UserI } from "../interfaces/User";
 
 const AuthContext = createContext({});
 
 export default AuthContext;
 
 export const AuthProvider = ({ children }: any) => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<UserI>();
   const [googleDataState, setGoogleDataState] = useState();
-  const [key, setKey] = useState();
+  const [key, setKey] = useState<string>();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,15 +19,35 @@ export const AuthProvider = ({ children }: any) => {
     }
   }, [key]);
 
+  const getIsSuperUser = async (userData: UserI) => {
+    await fetch("http://127.0.0.1:8000/api/is-superuser", {
+      method: "GET",
+      headers: {
+        Authorization: "Token " + localStorage.getItem("key"),
+      },
+    }).then(async (resp: Response) => {
+      if (resp.status === 200) {
+        let data = await resp.json();
+        if (data != undefined && userData != undefined) {
+          userData["is_superuser"] = data.is_superuser;
+          userData["receptionist"] = data.receptionist;
+          setUser(userData);
+        }
+      }
+    });
+  };
+
   const getUserByKey = async (key: string) => {
-    let response = await fetch("http://127.0.0.1:8000/api/auth/user/", {
+    await fetch("http://127.0.0.1:8000/api/auth/user/", {
       method: "GET",
       headers: {
         Authorization: "Token " + key,
       },
     }).then(async (resp: Response) => {
-      let data = await resp.json();
-      setUser(data);
+      if (resp.status === 200) {
+        let data = await resp.json();
+        getIsSuperUser(data);
+      }
     });
   };
 

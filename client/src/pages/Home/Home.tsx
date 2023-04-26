@@ -28,6 +28,8 @@ import Galery6 from "../../assets/images/gallery-img-6.webp";
 import { Swiper, SwiperSlide } from "swiper/react";
 import HotelContext from "../../context/hotelcontext";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../context/context";
+import { User as UserI } from "../../interfaces/User";
 
 function Home() {
   useEffect(() => {
@@ -42,12 +44,9 @@ function Home() {
   });
 
   const { sendMessage }: any = useContext(HotelContext);
+  const { user }: any = useContext(AuthContext);
 
   let navigate = useNavigate();
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-  const [adultCount, setAdultCount] = useState();
-  const [childCount, setChildCount] = useState();
 
   return (
     <>
@@ -67,7 +66,9 @@ function Home() {
               <h3 className="text-[#DCC69C] text-[2.4rem] font-semibold">
                 Lüks Odalar
               </h3>
-              <a className="btn">Kullanılabirliği kontrol et</a>
+              <a className="btn" href="#availability">
+                Kullanılabirliği kontrol et
+              </a>
             </div>
           </SwiperSlide>
           <SwiperSlide>
@@ -158,19 +159,6 @@ function Home() {
                 <option value="4">4 Çocuk</option>
                 <option value="5">5 Çocuk</option>
                 <option value="6">6 Çocuk</option>
-              </select>
-            </div>
-            <div className="box">
-              <p>
-                Oda Sayısı <span>*</span>
-              </p>
-              <select name="Oda Sayısı" className="input h-[50px]" required>
-                <option value="1">1 Oda </option>
-                <option value="2">2 Oda</option>
-                <option value="3">3 Oda</option>
-                <option value="4">4 Oda</option>
-                <option value="5">5 Oda</option>
-                <option value="6">6 Oda</option>
               </select>
             </div>
           </div>
@@ -305,7 +293,7 @@ function Home() {
       <section className="contact" id="contact">
         <div className="row">
           <form
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
               let name: string = e.target.name.value;
               let email: string = e.target.email.value;
@@ -317,13 +305,15 @@ function Home() {
               e.target.number.value = "";
               e.target.name.value = "";
             }}
+            className="selection:bg-[#dcc69c] selection:text-[#2b1103]"
           >
             <h3>Bize mesaj gönderin</h3>
             <input
               type="text"
               name="name"
-              required
               placeholder="isim ve soyisminizi girin"
+              required
+              maxLength={70}
               className="box"
             />
             <input
@@ -331,15 +321,16 @@ function Home() {
               name="email"
               required
               placeholder="email adresinizi girin"
+              maxLength={100}
               className="box"
             />
             <input
-              type="number"
+              type="text"
+              pattern="\d*"
               name="number"
-              required
-              min="0"
-              max="9999999999"
               placeholder="numaranızı girin"
+              required
+              maxLength={11}
               className="box"
             />
             <textarea
@@ -349,6 +340,7 @@ function Home() {
               placeholder="mesajınızı girin"
               cols={30}
               rows={10}
+              maxLength={150}
             ></textarea>
             <input
               type="submit"

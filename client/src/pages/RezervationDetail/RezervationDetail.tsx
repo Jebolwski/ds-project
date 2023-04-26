@@ -3,14 +3,20 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, EffectFlip } from "swiper";
 import Galery3 from "../../assets/images/gallery-img-3.webp";
 import Galery4 from "../../assets/images/gallery-img-4.webp";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Booking as BookingI } from "../../interfaces/Booking";
+import AuthContext from "../../context/context";
 
 function RezervationDetail() {
   const params = useParams();
-
   const [booking, setBooking] = useState<BookingI>();
+  const { user }: any = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  // if (!(user && user.receptionist)) {
+  //   navigate("/");
+  // }
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/booking/" + params.id, {

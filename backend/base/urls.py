@@ -14,9 +14,12 @@ urlpatterns = [
     path('rest-auth/google/', views.GoogleLogin.as_view()),
     path('auth/', include('dj_rest_auth.urls')),
     path('register', views.Register),
+    path('is-superuser', views.GetIsSuperUser),
 
     # TODO Room
     path('room/<int:id>', views.GetARoom),
+    path('room-category/all', views.GetAllRoomsCategorys),
+    path('room-category/add', views.AddRoomCategory),
     path('room/add', views.AddRoom),
     path('room/<int:id>/update', views.UpdateRoom),
     path('room/<int:id>/delete', views.DeleteRoom),

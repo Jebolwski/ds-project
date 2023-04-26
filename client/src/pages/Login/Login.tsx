@@ -36,42 +36,47 @@ function Login() {
         </div>
 
         <div className="bg-[#dcc69c] rounded-xl p-5 shadow-md hover:shadow-lg duration-200 lg:w-1/3 md:w-4/5 w-full">
-          <div>
-            <div className="flex items-center gap-1">
-              <i className="fa-solid fa-user fa-lg"></i>
-              <div className="text-[1.6rem] font-semibold">Kullanıcı Adı</div>
-            </div>
-            <div className="mb-5 grid place-items-center w-full">
-              <input
-                type="text"
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-                className="w-full p-2 border border-stone-200 rounded-lg duration-200 shadow-md hover:shadow-lg text-xl"
-              />
-            </div>
-            <div className="flex items-center gap-1 mt-8">
-              <i className="fa-solid fa-lock fa-lg"></i>
-              <div className="text-[1.6rem] font-semibold">Şifre</div>
-            </div>
-            <div className="mb-5 grid place-items-center w-full">
-              <input
-                type="password"
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                className="w-full p-2 border border-stone-200 rounded-lg duration-200 shadow-md hover:shadow-lg text-xl"
-              />
-            </div>
-          </div>
-          <button
-            className="btn mt-0 hover:bg-[#c3a876] p-1 shadow-md hover:shadow-lg duration-200 rounded-md w-full"
-            onClick={() => {
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
               login(username, password);
             }}
           >
-            Giriş
-          </button>
+            <div>
+              <div className="flex items-center gap-1">
+                <i className="fa-solid fa-user fa-lg"></i>
+                <div className="text-[1.6rem] font-semibold">Kullanıcı Adı</div>
+              </div>
+              <div className="mb-5 grid place-items-center w-full">
+                <input
+                  type="text"
+                  required
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
+                  className="w-full p-2 border border-stone-200 rounded-lg duration-200 shadow-md hover:shadow-lg text-xl"
+                />
+              </div>
+              <div className="flex items-center gap-1 mt-8">
+                <i className="fa-solid fa-lock fa-lg"></i>
+                <div className="text-[1.6rem] font-semibold">Şifre</div>
+              </div>
+              <div className="mb-5 grid place-items-center w-full">
+                <input
+                  type="password"
+                  required
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  className="w-full p-2 border border-stone-200 rounded-lg duration-200 shadow-md hover:shadow-lg text-xl"
+                />
+              </div>
+            </div>
+            <button className="btn mt-0 hover:bg-[#c3a876] p-1 shadow-md hover:shadow-lg duration-200 rounded-md w-full">
+              Giriş
+            </button>
+          </form>
+
           <div className="flex flex-wrap text-white items-center mt-5 text-xl gap-3">
             Hesabınız yok mu?
             <Link

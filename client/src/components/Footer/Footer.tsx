@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Footer() {
   return (
     <>
@@ -20,9 +22,9 @@ function Footer() {
           </div>
 
           <div className="box">
-            <a href="#home">Anasayfa</a>
+            <Link to={"/"}>Anasayfa</Link>
             <a href="#about">Hakkında</a>
-            <a href="#reservation">Rezervasyon</a>
+            <a href="#availability">Rezervasyon</a>
             <a href="#gallery">Galeri</a>
             <a href="#contact">İletişim</a>
             <a href="#reviews">Yorumlar</a>

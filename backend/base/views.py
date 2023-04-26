@@ -10,7 +10,7 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import authentication_classes
 from django.contrib.auth.models import User
-from .serializers import RoomSerializer, AddRoomSerializer, MessageSerializer, FeedbackSerializer, AdultSerializer, ChildSerializer, BookingSerializer, BookingAddSerializer
+from .serializers import RoomSerializer, AddRoomSerializer, MessageSerializer, CategorySerializer, FeedbackSerializer, AdultSerializer, ChildSerializer, BookingSerializer, BookingAddSerializer
 from .models import Room, RoomCategory, Booking, Message, Receptionist, Feedback
 from .forms import SignupForm
 import datetime
@@ -171,6 +171,20 @@ def Register(request):
         return Response({"msg_en": "There was no data entered. 😒", "msg_tr": "Bize veri verilmedi. 😒"}, status=400)
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def GetIsSuperUser(request):
+    try:
+        if request.user.is_superuser:
+            return Response({"is_superuser": True, "receptionist": True}, status=200)
+        elif len(Receptionist.objects.filter(user=request.user)) > 0:
+            return Response({"is_superuser": False, "receptionist": True}, status=200)
+        else:
+            return Response({"is_superuser": False, "receptionist": False}, status=200)
+    except:
+        return Response({"msg_en": "An error occurred. 😥", "msg_tr": "Bir hata oluştu. 😥"}, status=500)
+
+
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
     callback_url = "http://localhost:5173/login"
@@ -191,6 +205,46 @@ def GetARoom(request, id):
         return Response({"data": serializer.data}, status=200)
     else:
         return Response({"msg_en": "Couldnt find the room. 😥", "msg_tr": "Oda bulunamadı. 😥"}, status=400)
+
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def GetAllRoomsCategorys(request):
+    if Receptionist.Security(request):
+        return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
+
+    recep = RoomCategory.objects.all()
+    serializer = CategorySerializer(recep, many=True)
+    return Response({"data": serializer.data}, status=200)
+
+
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminUser])
+def AddRoomCategory(request):
+    """
+        Otele oda kategorisi ekler. name, max_adult,
+        max_children, desc, price verilerini alır.
+    """
+    if request.data.get('name') == None:
+        return Response({"msg_en": "You didnt enter category name. 😶", "msg_tr": "Kategori adını girmediniz. 😶"}, status=400)
+    if request.data.get('max_adult') == None:
+        return Response({"msg_en": "You didnt enter max number of adults. 😶", "msg_tr": "Maksimum yetişkin sayısını girmediniz. 😶"}, status=400)
+    if request.data.get('max_children') == None:
+        return Response({"msg_en": "You didnt enter max number of children. 😶", "msg_tr": "Maksimum çocuk sayısını girmediniz. 😶"}, status=400)
+    if request.data.get('desc') == None:
+        return Response({"msg_en": "You didnt enter description. 😶", "msg_tr": "Açıklamayı girmediniz. 😶"}, status=400)
+    if request.data.get('price') == None:
+        return Response({"msg_en": "You didnt enter price. 😶", "msg_tr": "Fiyatı girmediniz. 😶"}, status=400)
+
+    category = CategorySerializer(data=request.data)
+    if category.is_valid():
+        category.save()
+        return Response({"msg_en": "Successfully added the room. 😶", "msg_tr": "Oda başarıyla eklendi. 😶", "data": category.data}, status=200)
+    else:
+        print(category.errors)
+        return Response({"msg_en": "Data is not valid. 🤨", "msg_tr": "Veri doğru değil. 🤨"}, status=400)
 
 
 @api_view(['POST'])

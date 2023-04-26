@@ -11,11 +11,7 @@ function Payment() {
   const elements = useElements();
   return (
     <div>
-      <CardElement
-        onChange={(e) => {
-          console.log(e);
-        }}
-      />
+      <CardElement />
       <button type="submit" disabled={!stripe || !elements}>
         Pay
       </button>
