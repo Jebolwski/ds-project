@@ -19,6 +19,8 @@ urlpatterns = [
     # TODO Room
     path('room/<int:id>', views.GetARoom),
     path('room-category/all', views.GetAllRoomsCategorys),
+    path('room-category/<int:id>', views.GetACategory),
+    path('room-category/<int:id>/delete', views.DeleteCategory),
     path('room-category/add', views.AddRoomCategory),
     path('room/add', views.AddRoom),
     path('room/<int:id>/update', views.UpdateRoom),

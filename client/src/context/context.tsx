@@ -93,27 +93,24 @@ export const AuthProvider = ({ children }: any) => {
     });
   };
 
-  const register = (
+  const register = async (
     username: string,
     email: string,
     password: string,
     password1: string
   ) => {
-    let resp: Promise<Response | void> = fetch(
-      "http://127.0.0.1:8000/api/register",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          username: username,
-          password1: password,
-          password2: password1,
-        }),
-      }
-    ).then(async (resp: Response) => {
+    await fetch("http://127.0.0.1:8000/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        username: username,
+        password1: password,
+        password2: password1,
+      }),
+    }).then(async (resp: Response) => {
       if (resp.status == 200) {
         navigate("/login");
       }
@@ -121,7 +118,7 @@ export const AuthProvider = ({ children }: any) => {
   };
 
   const logout = async () => {
-    let resp = await fetch("http://127.0.0.1:8000/api/auth/logout/", {
+    await fetch("http://127.0.0.1:8000/api/auth/logout/", {
       method: "POST",
       headers: {
         Authorization: "Token " + localStorage.getItem("key"),

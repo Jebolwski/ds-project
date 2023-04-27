@@ -25,6 +25,7 @@ import AddRoomCategory from "./pages/AddRoomCategory/AddRoomCategory";
 import ReceptionistProtect from "./pages/Protected/ReceptionistProtect";
 import SuperUserProtect from "./pages/Protected/SuperUserProtect";
 import DeleteRoom from "./pages/DeleteRoom/DeleteRoom";
+import DeleteCategory from "./pages/DeleteCategory/DeleteCategory";
 
 const stripe_key = REACT_APP_STRIPE_KEY;
 const stripePromise = loadStripe(stripe_key);
@@ -60,6 +61,13 @@ function App() {
                     <Route
                       path="/room-category/add/"
                       element={<AddRoomCategory />}
+                    />
+                    {/* Oda Sil */}
+                    <Route path="/room/:id/delete" element={<DeleteRoom />} />
+                    {/* Kategori Sil */}
+                    <Route
+                      path="/room-category/:id/delete"
+                      element={<DeleteCategory />}
                     />
                   </Route>
                   <Route path="/checkout/success/" element={<Success />} />

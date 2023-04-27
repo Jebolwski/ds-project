@@ -209,6 +209,22 @@ def GetARoom(request, id):
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([AllowAny])
+def GetACategory(request, id):
+    """
+        Oteldeki bir oda kategorisinin verilerini verir.
+    """
+    categoryObject = RoomCategory.objects.filter(id=id)
+    if len(categoryObject) > 0:
+        categoryObject = categoryObject[0]
+        serializer = CategorySerializer(categoryObject, many=False)
+        return Response({"data": serializer.data}, status=200)
+    else:
+        return Response({"msg_en": "Couldnt find the room category. 😥", "msg_tr": "Oda kategorisi bulunamadı. 😥"}, status=400)
+
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def GetAllRoomsCategorys(request):
     if Receptionist.Security(request):
@@ -323,6 +339,22 @@ def DeleteRoom(request, id):
         return Response({"msg_en": "Couldnt find the room. 😥", "msg_tr": "Oda bulunamadı. 😥"}, status=400)
     roomObject.delete()
     return Response({"msg_en": "Successfully deleted the room. 😄", "msg_tr": "Oda başarıyla kaldırıldı. 😄"}, status=200)
+
+
+@api_view(['DELETE'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminUser])
+def DeleteCategory(request, id):
+    """
+        Oteldeki bir oda kategorisini siler.
+    """
+    categoryObject = RoomCategory.objects.filter(id=id)
+    if len(categoryObject) > 0:
+        categoryObject = categoryObject[0]
+    else:
+        return Response({"msg_en": "Couldnt find the room category. 😥", "msg_tr": "Oda kategorisi bulunamadı. 😥"}, status=400)
+    categoryObject.delete()
+    return Response({"msg_en": "Successfully deleted the room category. 😄", "msg_tr": "Oda kategorisi başarıyla kaldırıldı. 😄"}, status=200)
 
 
 @api_view(['GET'])
@@ -638,8 +670,11 @@ def Payment(request):
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
-@permission_classes([IsAdminUser])
+@permission_classes([IsAuthenticated])
 def GetBooking(request, id):
+    if Receptionist.Security(request):
+        return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
+
     booking = get_object_or_404(Booking, id=id)
     data = BookingSerializer(booking, many=False)
     return Response({"data": data.data}, status=200)
