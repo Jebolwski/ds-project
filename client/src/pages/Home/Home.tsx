@@ -1,6 +1,8 @@
 import "src/pages/Home/Home.css";
 import { useContext, useEffect, useState } from "react";
 import { Navigation, Pagination, EffectCards } from "swiper";
+import { toast } from "react-toastify";
+
 import Home1 from "../../assets/images/home-img-1.jpg";
 import Home2 from "../../assets/images/home-img-2.jpg";
 import Home3 from "../../assets/images/home-img-3.jpg";
@@ -49,7 +51,7 @@ function Home() {
   let navigate = useNavigate();
 
   return (
-    <>
+    <div className="home-all">
       <section className="home" id="home">
         <Swiper
           spaceBetween={20}
@@ -106,6 +108,10 @@ function Home() {
             e.preventDefault();
             let start: Date = e.target.check_in.value;
             let end: Date = e.target.check_out.value;
+            if (start > end) {
+              toast.error("Giriş tarihi çıkış tarihinden büyük olamaz. 😶");
+              return;
+            }
             let adult: number = e.target.adult.value;
             let children: number = e.target.children.value;
             navigate(`/search-room/${start}/${end}/${children}/${adult}`);
@@ -458,7 +464,7 @@ function Home() {
           </SwiperSlide>
         </Swiper>
       </section>
-    </>
+    </div>
   );
 }
 

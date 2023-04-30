@@ -43,9 +43,8 @@ class Room(models.Model):
     image4 = models.ImageField(upload_to='room_images', null=True, blank=True)
 
     def __str__(self):
-        if self.image1:
-            return self.category.name + " -|- " + self.image1.url
-        return self.category.name
+
+        return self.category.name + " | " + str(self.id)
 
 
 class Booking(models.Model):
@@ -58,9 +57,7 @@ class Booking(models.Model):
     end = models.DateField(blank=False, null=False)
 
     def __str__(self):
-        if len(self.adults.all()) > 0:
-            return self.room.category.name + " -|- " + self.adults.first().name
-        return self.room.category.name
+        return str(self.room) + " --> " + self.start.strftime("%m/%d/%Y")+" -- "+self.end.strftime("%m/%d/%Y")
 
 
 class Message(models.Model):

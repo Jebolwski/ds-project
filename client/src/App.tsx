@@ -26,6 +26,7 @@ import ReceptionistProtect from "./pages/Protected/ReceptionistProtect";
 import SuperUserProtect from "./pages/Protected/SuperUserProtect";
 import DeleteRoom from "./pages/DeleteRoom/DeleteRoom";
 import DeleteCategory from "./pages/DeleteCategory/DeleteCategory";
+import AllRezervations from "./pages/AllRezervations/AllRezervations";
 
 const stripe_key = REACT_APP_STRIPE_KEY;
 const stripePromise = loadStripe(stripe_key);
@@ -47,6 +48,10 @@ function App() {
                   <Route element={<SuperUserProtect />}>
                     {/* Oda Silme */}
                     <Route path="/room/:id/delete" element={<DeleteRoom />} />
+                    <Route
+                      path="/rezervation/all"
+                      element={<AllRezervations />}
+                    />
                   </Route>
                   {/* Sadece Resepsiyon ve Yönetici */}
                   <Route element={<ReceptionistProtect />}>

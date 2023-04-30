@@ -13,4 +13,5 @@ export interface Category {
   max_adult: number;
   max_children: number;
   desc: string;
+  price: number;
 }

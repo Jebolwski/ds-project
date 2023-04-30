@@ -38,7 +38,6 @@
 
 html {
   font-size: 62.5%;
-  overflow-x: hidden;
   scroll-behavior: smooth;
   scroll-padding-top: 2rem;
 }
@@ -128,6 +127,10 @@ section {
   background-color: var(--main-color);
   color: var(--sub-color);
   transition: 0.2s ease;
+}
+
+.home-all {
+  overflow-x: hidden;
 }
 
 .home .box img {

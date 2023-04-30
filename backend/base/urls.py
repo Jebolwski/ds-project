@@ -30,6 +30,7 @@ urlpatterns = [
     # TODO Book
     path('room/search', views.SearchRoom),
     path('booking/<int:id>', views.GetBooking),
+    path('booking/all', views.GetAllRezervations),
     path('room/book-rec', views.CreateBookingReception),
     path('booking/<int:id>/delete', views.RemoveBooking),
     path('payment', views.Payment),

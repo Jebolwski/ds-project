@@ -276,7 +276,6 @@ def AddRoom(request):
     data = request.data.copy()
     if data.get('category'):
         data['category'] = int(data.get('category'))
-    print(data)
     room = AddRoomSerializer(data=data)
     if room.is_valid():
         room.save()
@@ -384,7 +383,6 @@ def SearchRoom(request):
     """
         getirilen kategorilere sahip olan odalar getiriliyor
     """
-
     odalar = LinkedList()
 
     for i in categories:
@@ -396,14 +394,16 @@ def SearchRoom(request):
     """
         odalara bakılarak boş olan odalar aranıyor
     """
+    dataStart = datetime.datetime.strptime(
+        request.GET.get('start'), '%Y-%m-%d').date()
+    dataEnd = datetime.datetime.strptime(
+        request.GET.get('end'), '%Y-%m-%d').date()
     temp = odalar.head
     while temp != None:
         bookings = Booking.objects.filter(room=temp.value)
         if len(bookings) > 0:
             flag = True
             for j in bookings:
-                dataStart = datetime.date(2023, 3, 30)
-                dataEnd = datetime.date(2023, 4, 4)
                 if not ((j.start >= dataEnd) or (j.end <= dataStart)):
                     flag = False
             if flag == True:
@@ -415,7 +415,6 @@ def SearchRoom(request):
     result = Stack()
     for i in stack.stack:
         if i != None or i != "":
-            print(i)
             serializer = RoomSerializer(i, many=False)
             result.push(serializer.data)
 
@@ -522,6 +521,15 @@ def CreateBookingReception(request):
         return Response({"msg_en": "No data was given to us. 🥲", "msg_tr": "Bize veri verilmedi. 🥲"}, status=400)
 
 
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminUser])
+def GetAllRezervations(request):
+    allRezerv = Booking.objects.all()
+    serializer = BookingSerializer(allRezerv, many=True)
+    return Response({"data": serializer.data}, status=200)
+
+
 @api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -602,6 +610,9 @@ def Payment(request):
     price = request.data.get('price')
     product_name = request.data.get('product_name')
     idn = 0
+    if (request.data.get('start') > request.data.get('end')):
+        return Response({"msg_tr": "Giriş tarihi çıkış tarihinden büyük olamaz. 😶", "msg_en": "Check in date cant be bigger than check out date. 😶"}, status=400)
+
     try:
         checkout_session = stripe.checkout.Session.create(
             line_items=[{
@@ -615,10 +626,9 @@ def Payment(request):
                 'quantity': 1
             }],
             mode='payment',
-            success_url="http://127.0.0.1:5173/checkout/success",
-            cancel_url="http://127.0.0.1:5173/checkout/failed",
+            success_url="http://localhost:5173/checkout/success",
+            cancel_url="http://localhost:5173/checkout/failed",
         )
-        print(checkout_session)
         if request.data.get('adults') == None:
             return Response({"msg_en": "You didnt enter adults. 🤨", "msg_tr": "Yetişkinlerin verilerini eklemedin. 🤨"}, status=400)
 
@@ -634,6 +644,8 @@ def Payment(request):
                     if adult.is_valid():
                         Adult = adult.save()
                         adults.push(Adult.id)
+                    else:
+                        print(adult.errors)
 
             for i in request.data.get('children'):
                 if i.get('age') and i.get('tcno') and i.get('name'):
@@ -641,7 +653,8 @@ def Payment(request):
                     if child.is_valid():
                         Child = child.save()
                         children.push(Child.id)
-
+                    else:
+                        print(adult.errors)
             data = {"childs": children.stack, "adults": adults.stack, "room": request.data.get('room'),
                     "start": request.data.get('start'), "end": request.data.get('end')}
 
@@ -649,7 +662,7 @@ def Payment(request):
             if booking.is_valid():
                 book = booking.save()
                 idn = book.id
-                return redirect(checkout_session.url, code=303)
+                return Response({"url": checkout_session.get('url')}, status=200)
             else:
                 print(booking.errors)
                 return Response({"msg_en": "Data is not valid. 😥", "msg_tr": "Veri doğru değil. 😥"}, status=400)
