@@ -4,6 +4,7 @@ export interface Booking {
   adults: Adult[];
   room: Room;
   start: Date;
+  user: number;
   end: Date;
 }
 

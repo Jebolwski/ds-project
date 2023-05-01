@@ -104,7 +104,6 @@ section {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  gap: 1.5rem;
   margin-top: 2rem;
   background-color: var(--sub-color);
   padding: 0.5rem;
@@ -113,10 +112,10 @@ section {
 
 .header .navbar div,
 .header .navbar a {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   display: block;
   color: var(--main-color);
-  padding: 1rem 3rem;
+  padding: 0.834rem 2.5rem;
   border-radius: 0.5rem;
   transition: 0.2s ease;
 }

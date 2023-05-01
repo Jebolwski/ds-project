@@ -27,6 +27,13 @@ import SuperUserProtect from "./pages/Protected/SuperUserProtect";
 import DeleteRoom from "./pages/DeleteRoom/DeleteRoom";
 import DeleteCategory from "./pages/DeleteCategory/DeleteCategory";
 import AllRezervations from "./pages/AllRezervations/AllRezervations";
+import Messages from "./pages/Messages/Messages";
+import Rooms from "./pages/Rooms/Rooms";
+import RoomCategories from "./pages/RoomCategories/RoomCategories";
+import Message from "./pages/Message/Message";
+import RoomCategory from "./pages/RoomCategory/RoomCategory";
+import Room from "./pages/Room/Room";
+import MyRezervations from "./pages/MyRezervations/MyRezervations";
 
 const stripe_key = REACT_APP_STRIPE_KEY;
 const stripePromise = loadStripe(stripe_key);
@@ -60,6 +67,18 @@ function App() {
                       path="/rezervation/:id"
                       element={<RezervationDetail />}
                     />
+                    <Route path="/room/all" element={<Rooms />} />
+                    <Route path="/room/:id" element={<Room />} />
+
+                    <Route
+                      path="/room-category/all"
+                      element={<RoomCategories />}
+                    />
+                    <Route
+                      path="/room-category/:id"
+                      element={<RoomCategory />}
+                    />
+
                     {/* Oda Ekle */}
                     <Route path="/room/add/" element={<AddRoom />} />
                     {/* Kategori Ekle */}
@@ -74,6 +93,8 @@ function App() {
                       path="/room-category/:id/delete"
                       element={<DeleteCategory />}
                     />
+                    <Route path="/message/all" element={<Messages />} />
+                    <Route path="/message/:id" element={<Message />} />
                   </Route>
                   <Route path="/checkout/success/" element={<Success />} />
                   <Route path="/checkout/failed/" element={<Cancel />} />
@@ -81,6 +102,7 @@ function App() {
                     path="/search-room/:start/:end/:children/:adult"
                     element={<SearchRoom />}
                   />
+                  <Route path="/rezervation/my" element={<MyRezervations />} />
                   {/* Sadece Giriş Yapmamışlar */}
                   <Route element={<AuthProtect />}>
                     {/* Giriş */}

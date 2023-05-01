@@ -38,7 +38,7 @@ function DeleteRoom() {
     }).then(async (resp: Response) => {
       if (resp.status == 200) {
         let data = await resp.json();
-        navigate("/");
+        navigate("/room/all");
         toast.success(data.msg_tr);
       }
     });
@@ -53,7 +53,7 @@ function DeleteRoom() {
             emin misiniz?
           </h3>
           <div className="mt-16 flex items-center justify-evenly gap-5">
-            <Link to={"/"} className="btn">
+            <Link to={"/room/all"} className="btn">
               Geri Dön
             </Link>
             <button className="btn" onClick={deleteRoom}>

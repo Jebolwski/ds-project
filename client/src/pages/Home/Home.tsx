@@ -2,7 +2,6 @@ import "src/pages/Home/Home.css";
 import { useContext, useEffect, useState } from "react";
 import { Navigation, Pagination, EffectCards } from "swiper";
 import { toast } from "react-toastify";
-
 import Home1 from "../../assets/images/home-img-1.jpg";
 import Home2 from "../../assets/images/home-img-2.jpg";
 import Home3 from "../../assets/images/home-img-3.jpg";

@@ -49,6 +49,8 @@ class Room(models.Model):
 
 class Booking(models.Model):
     """Rezervasyon modeli room, children_count, adult_count, start, end verilerini içerir."""
+    user = models.ForeignKey(
+        User, blank=False, on_delete=models.CASCADE, null=False)
     room = models.ForeignKey(
         Room, on_delete=models.CASCADE, null=False, blank=False)
     childs = models.ManyToManyField(Child, blank=True)
@@ -57,7 +59,7 @@ class Booking(models.Model):
     end = models.DateField(blank=False, null=False)
 
     def __str__(self):
-        return str(self.room) + " --> " + self.start.strftime("%m/%d/%Y")+" -- "+self.end.strftime("%m/%d/%Y")
+        return self.user.username+" --> "+str(self.room) + " --> " + self.start.strftime("%m/%d/%Y")+" -- "+self.end.strftime("%m/%d/%Y")
 
 
 class Message(models.Model):

@@ -29,7 +29,7 @@ function AllRezervations() {
 
   return (
     <section className="text-white lg:text-3xl text-xl">
-      <h1 className="mb-12 font-semibold">Bütün Rezervasyonlar</h1>
+      <h1 className=" font-semibold">Bütün Rezervasyonlar</h1>
       {rezervations?.map((rezervation: BookingI, index: number) => {
         return (
           <Link
@@ -57,59 +57,6 @@ function AllRezervations() {
           </Link>
         );
       })}
-      {/* <table
-        className="table-auto w-full overflow-x-scroll font-normal p-1"
-        style={{ overflowX: "scroll" }}
-      >
-        <thead>
-          <tr className="text-left font-light hover:bg-[#421c08] duration-100">
-            <th>Oda</th>
-            <th className="whitespace-nowrap lg:table-cell hidden">
-              Yetişkin Sayısı
-            </th>
-            <th className="whitespace-nowrap lg:hidden">Yetişkin</th>
-            <th className="whitespace-nowrap lg:table-cell hidden">
-              Çocuk Sayısı
-            </th>
-            <th className="whitespace-nowrap lg:hidden">Çocuk</th>
-            <th>Giriş</th>
-            <th>Çıkış</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {rezervations?.map((rezervation: BookingI, index: number) => {
-            return (
-              <tr
-                className={`text-left hover:bg-[#421c08] duration-100 border-t-2 border-b ${
-                  index % 2 == 1 ? "bg-[#421c08]" : ""
-                } border-[#421c08]`}
-              >
-                <td className="whitespace-nowrap">
-                  {rezervation.room.category.name} {rezervation.room.id}
-                </td>
-                <td className="whitespace-nowrap">
-                  {rezervation.adults.length}
-                </td>
-                <td className="whitespace-nowrap">
-                  {rezervation.childs.length}
-                </td>
-                <td className="whitespace-nowrap">
-                  {moment(rezervation.start).format("LL")}
-                </td>
-                <td className="whitespace-nowrap">
-                  {moment(rezervation.end).format("LL")}
-                </td>
-                <td className="cursor-pointer">
-                  <Link to={`/rezervation/${rezervation.id}`}>
-                    <BsThreeDots />
-                  </Link>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table> */}
     </section>
   );
 }

@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Header.css";
 import { useContext, useEffect } from "react";
 import AuthContext from "../../context/context";
 
 function Header() {
+  const location = useLocation();
+
   useEffect(() => {
     let navbar: HTMLElement | null = document.querySelector(".header .navbar");
     let menu_btn: HTMLElement | null = document.querySelector("#menu-btn");
@@ -23,13 +25,15 @@ function Header() {
   return (
     <>
       <section className="header">
-        <div className="flex">
+        <div className="flex h-[48px]">
           <Link to={"/"} className="logo">
             Hotelingo
           </Link>
-          <a href="#availability" className="btn">
-            Kullanılabirliği kontrol et
-          </a>
+          {location.pathname == "/" ? (
+            <a href="#availability" className="btn">
+              Kullanılabirliği kontrol et
+            </a>
+          ) : null}
           <div id="menu-btn" className="fas fa-bars"></div>
         </div>
         {user && (
@@ -37,12 +41,20 @@ function Header() {
             Hoşgeldin, {user.username}.
           </div>
         )}
-        <nav className="navbar">
-          <Link to={"/"}>Anasayfa</Link>
-          <div>Hakkında</div>
-          <div>Rezervasyon</div>
-          <div>Galeri</div>
-          <div>İncelemeler</div>
+        <nav className="navbar lg:text-3xl text-base">
+          {user && (user.is_superuser || user.receptionist) ? (
+            <Link to={"/room/all"}>Odalar</Link>
+          ) : null}
+          {user && (user.is_superuser || user.receptionist) ? (
+            <Link to={"/room-category/all"}>Oda Kategorileri</Link>
+          ) : null}
+          {user && (user.is_superuser || user.receptionist) ? (
+            <Link to={"/rezervation/all"}>Rezervasyonlar</Link>
+          ) : null}
+          {user && (user.is_superuser || user.receptionist) ? (
+            <Link to={"/message/all"}>Mesajlar</Link>
+          ) : null}
+          {user ? <Link to={"/rezervation/my"}>Rezervasyonlarım</Link> : null}
           {user ? (
             <div onClick={logout}>Çıkış Yap</div>
           ) : (

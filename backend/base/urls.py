@@ -18,7 +18,9 @@ urlpatterns = [
 
     # TODO Room
     path('room/<int:id>', views.GetARoom),
+    path('room/all', views.GetAllRooms),
     path('room-category/all', views.GetAllRoomsCategorys),
+    path('booking/my', views.MyBookings),
     path('room-category/<int:id>', views.GetACategory),
     path('room-category/<int:id>/delete', views.DeleteCategory),
     path('room-category/add', views.AddRoomCategory),
@@ -33,6 +35,7 @@ urlpatterns = [
     path('booking/all', views.GetAllRezervations),
     path('room/book-rec', views.CreateBookingReception),
     path('booking/<int:id>/delete', views.RemoveBooking),
+    path('booking/<int:id>/cancel', views.CancelBooking),
     path('payment', views.Payment),
 
     # TODO Feedback
@@ -41,6 +44,7 @@ urlpatterns = [
 
 
     # TODO Message
+    path('message/all', views.GetAllMessages),
     path('message/send', views.SendMessage),
     path('message/<int:id>/delete', views.DeleteMessage),
 ]

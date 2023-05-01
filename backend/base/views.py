@@ -110,6 +110,25 @@ class Stack:
         return self.stack[-1]
 
 
+class Queue:
+
+    def __init__(self):
+        self.queue = []
+
+    def push(self, val):
+        self.queue.insert(0, val)
+
+    def pop(self):
+        return self.stack.pop()
+
+    def print(self):
+        for i in self.queue:
+            print(str(i) + " -> ")
+
+    def peek(self):
+        return self.queue[-1]
+
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
@@ -221,6 +240,18 @@ def GetACategory(request, id):
         return Response({"data": serializer.data}, status=200)
     else:
         return Response({"msg_en": "Couldnt find the room category. 😥", "msg_tr": "Oda kategorisi bulunamadı. 😥"}, status=400)
+
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def GetAllRooms(request):
+    if Receptionist.Security(request):
+        return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
+
+    recep = Room.objects.all()
+    serializer = RoomSerializer(recep, many=True)
+    return Response({"data": serializer.data}, status=200)
 
 
 @api_view(['GET'])
@@ -421,6 +452,13 @@ def SearchRoom(request):
     return Response({"data": result.stack}, status=200)
 
 
+@api_view(['GET'])
+def GetAllMessages(request):
+    mess = Message.objects.all()
+    serializer = MessageSerializer(mess, many=True)
+    return Response({"data": serializer.data}, status=200)
+
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def SendMessage(request):
@@ -533,10 +571,36 @@ def GetAllRezervations(request):
 @api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
+def CancelBooking(request, id):
+    """
+        Rezervasyon iptal edilir, id parametresi alınır.
+    """
+    booking = Booking.objects.filter(id=id)
+    if len(booking) > 0:
+        booking = booking[0]
+        if request.user == booking.user:
+            diff = booking.start - datetime.date.today()
+            if diff.days > 5:
+                for child in booking.childs.all():
+                    child.delete()
+                for adult in booking.adults.all():
+                    adult.delete()
+                booking.delete()
+                return Response({"msg_en": "Sucessfully cancelled booking. 🚀", "msg_tr": "Rezervasyon iptal edildi. 🚀"}, status=200)
+            else:
+                return Response({"msg_en": "Its too late to cancel rezervation. 😥", "msg_tr": "Rezervasyonu iptal etmek için çok geç. 😥"}, status=400)
+        else:
+            return Response({"msg_en": "This rezervation isnt yours. 🤔", "msg_tr": "Bu rezervasyon size ait değil. 🤔"}, status=400)
+    else:
+        return Response({"msg_en": "Couldnt find the booking. 😥", "msg_tr": "Rezervasyon bulunamadı. 😥"}, status=400)
+
+
+@api_view(['DELETE'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def RemoveBooking(request, id):
     """
-        Rezervasyon silinir id parametresi ve stay verisi alınır.
-        Stay verisi verilirse kullanıcılar silinmez, verilmezse rezervasyon ve kullanıcılar silinir.    
+        Rezervasyon silinir, id parametresi alınır.
     """
 
     if Receptionist.Security(request):
@@ -545,15 +609,11 @@ def RemoveBooking(request, id):
     booking = Booking.objects.filter(id=id)
     if len(booking) > 0:
         booking = booking[0]
-
-        if request.data.get('stay'):
-            booking.delete()
-        else:
-            for child in booking.childs.all():
-                child.delete()
-            for adult in booking.adults.all():
-                adult.delete()
-            booking.delete()
+        for child in booking.childs.all():
+            child.delete()
+        for adult in booking.adults.all():
+            adult.delete()
+        booking.delete()
         return Response({"msg_en": "Sucessfully deleted booking. 🚀", "msg_tr": "Rezervasyon silindi. 🚀"}, status=200)
     else:
         return Response({"msg_en": "Couldnt find the booking. 😥", "msg_tr": "Rezervasyon bulunamadı. 😥"}, status=400)
@@ -687,10 +747,18 @@ def Payment(request):
 def GetBooking(request, id):
     if Receptionist.Security(request):
         return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
-
     booking = get_object_or_404(Booking, id=id)
     data = BookingSerializer(booking, many=False)
     return Response({"data": data.data}, status=200)
+
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def MyBookings(request):
+    bookings = Booking.objects.filter(user=request.user)
+    serializer = BookingSerializer(bookings, many=True)
+    return Response({"data": serializer.data}, status=200)
 
 
 def WebHook(request):
