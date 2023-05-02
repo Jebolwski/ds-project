@@ -268,12 +268,15 @@ def GetAllRoomsCategorys(request):
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
-@permission_classes([IsAdminUser])
+@permission_classes([IsAuthenticated])
 def AddRoomCategory(request):
     """
         Otele oda kategorisi ekler. name, max_adult,
         max_children, desc, price verilerini alır.
     """
+    if Receptionist.Security(request):
+        return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
+
     if request.data.get('name') == None:
         return Response({"msg_en": "You didnt enter category name. 😶", "msg_tr": "Kategori adını girmediniz. 😶"}, status=400)
     if request.data.get('max_adult') == None:
@@ -296,12 +299,15 @@ def AddRoomCategory(request):
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
-@permission_classes([IsAdminUser])
+@permission_classes([IsAuthenticated])
 def AddRoom(request):
     """
         Otele oda ekler. image1,
         image2, image3, image4 verilerini alır.
     """
+    if Receptionist.Security(request):
+        return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
+
     if request.data.get('image1') == None and request.data.get('image2') == None and request.data.get('image3') == None and request.data.get('image4') == None:
         return Response({"msg_en": "You didnt enter any photos. 😶", "msg_tr": "Hiç fotoğraf girmediniz. 😶"}, status=400)
     data = request.data.copy()
@@ -393,6 +399,12 @@ def SearchRoom(request):
     """
         Rezervasyon yaptırır. start, end, children, adult parametrelerini alır.
     """
+    # iptal edilmiş ödemelerde oluşturulmuş rezervasyonların silinmesi
+    allbook = Booking.objects.all()
+    for i in allbook:
+        if len(i.adults.all()) == 0:
+            i.delete()
+
     if request.GET.get('start') == None:
         return Response({"msg_en": "You didnt enter start date. 😶", "msg_tr": "Giriş tarihini girmediniz. 😶"}, status=400)
 
@@ -660,7 +672,7 @@ def DeleteFeedback(request, id):
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def Payment(request):
     if request.data.get('price') == None:
         return Response({"msg_en": "Price wasnt entered. 😥", "msg_tr": "Fiyat girilmedi. 😥"}, status=400)
@@ -673,6 +685,10 @@ def Payment(request):
     if (request.data.get('start') > request.data.get('end')):
         return Response({"msg_tr": "Giriş tarihi çıkış tarihinden büyük olamaz. 😶", "msg_en": "Check in date cant be bigger than check out date. 😶"}, status=400)
 
+    if request.data.get('adults') == None or len(request.data.get('adults')) == 0:
+        return Response({"msg_en": "You didnt enter adults. 🤨", "msg_tr": "Yetişkinlerin verilerini eklemedin. 🤨"}, status=400)
+    if request.data.get('children') == None:
+        return Response({"msg_en": "You didnt enter children. 🤨", "msg_tr": "Çocukların verilerini eklemedin. 🤨"}, status=400)
     try:
         checkout_session = stripe.checkout.Session.create(
             line_items=[{
@@ -689,11 +705,6 @@ def Payment(request):
             success_url="http://localhost:5173/checkout/success",
             cancel_url="http://localhost:5173/checkout/failed",
         )
-        if request.data.get('adults') == None:
-            return Response({"msg_en": "You didnt enter adults. 🤨", "msg_tr": "Yetişkinlerin verilerini eklemedin. 🤨"}, status=400)
-
-        if request.data.get('children') == None:
-            return Response({"msg_en": "You didnt enter children. 🤨", "msg_tr": "Çocukların verilerini eklemedin. 🤨"}, status=400)
 
         if request.data:
             adults = Stack()
@@ -716,7 +727,7 @@ def Payment(request):
                     else:
                         print(adult.errors)
             data = {"childs": children.stack, "adults": adults.stack, "room": request.data.get('room'),
-                    "start": request.data.get('start'), "end": request.data.get('end')}
+                    "start": request.data.get('start'), "end": request.data.get('end'), 'user': request.user.id}
 
             booking = BookingAddSerializer(data=data, many=False)
             if booking.is_valid():

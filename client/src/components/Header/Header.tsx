@@ -48,9 +48,10 @@ function Header() {
           {user && (user.is_superuser || user.receptionist) ? (
             <Link to={"/room-category/all"}>Oda Kategorileri</Link>
           ) : null}
-          {user && (user.is_superuser || user.receptionist) ? (
+          {user && user.is_superuser ? (
             <Link to={"/rezervation/all"}>Rezervasyonlar</Link>
           ) : null}
+          {!user ? <Link to={"/questions"}>Sıkça Sorulan Sorular</Link> : null}
           {user && (user.is_superuser || user.receptionist) ? (
             <Link to={"/message/all"}>Mesajlar</Link>
           ) : null}
@@ -60,7 +61,6 @@ function Header() {
           ) : (
             <Link to={"/login"}>Giriş Yap</Link>
           )}
-          {}
         </nav>
       </section>
     </>

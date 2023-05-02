@@ -72,7 +72,7 @@ function Rooms() {
                     <FaMoneyBillWave />
                     <span>{room.category.price}₺</span>
                   </div>
-                  {user && (user.is_superuser || user.receptionist) ? (
+                  {user && user.is_superuser ? (
                     <Link to={`/room/${room.id}/delete`}>
                       <AiFillDelete size={24} />
                     </Link>

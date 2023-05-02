@@ -13,7 +13,6 @@ function RoomCategory() {
       <div className="bg-[#421c08]/50 mt-5 p-5 rounded-lg shadow-md hover:shadow-lg duration-200">
         <h3 className="font-semibold mb-3">{category.name}</h3>
         <p className="italic mb-3">{category.desc}</p>
-        <span>{category.price}₺</span>
         <div className="flex items-center flex-wrap sm:justify-between justify-center gap-10">
           <div className="flex items-center gap-3">
             <BsPersonVcardFill />

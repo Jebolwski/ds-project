@@ -25,17 +25,19 @@ function AddRoomCategory() {
         desc: desc,
       }),
     }).then(async (resp: Response) => {
+      let data = await resp.json();
       if (resp.status === 200) {
-        let data = await resp.json();
         console.log(data);
-        navigate("/");
+        navigate("/room-category/all");
         toast.success(data.msg_tr);
+      } else {
+        toast.error(data.msg_tr);
       }
     });
   };
 
   return (
-    <section className="text-white text-3xl">
+    <section className="text-[#DCC69C] text-3xl">
       <form
         onSubmit={(e) => {
           e.preventDefault();

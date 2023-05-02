@@ -48,13 +48,17 @@ function AddRoom() {
       body: formdata,
     }).then(async (resp: Response) => {
       let data = await resp.json();
-      navigate("/");
-      toast.success(data.msg_tr);
+      if (resp.status == 200) {
+        navigate("/room/all");
+        toast.success(data.msg_tr);
+      } else {
+        toast.error(data.msg_tr);
+      }
     });
   };
 
   return (
-    <section className="text-white text-3xl">
+    <section className="text-[#DCC69C] text-3xl">
       <div>
         <div className="flex flex-wrap gap-10">
           <div className="flex-1">

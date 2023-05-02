@@ -5,12 +5,19 @@ import { BsThreeDots } from "react-icons/bs";
 import { BiChild } from "react-icons/bi";
 import { VscPerson } from "react-icons/vsc";
 import { Link } from "react-router-dom";
+import { FaMoneyBillWave } from "react-icons/fa";
+
 function AllRezervations() {
   const [rezervations, setRezervations] = useState<BookingI[] | undefined>();
 
   useEffect(() => {
     getAllRezervations();
   }, []);
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
 
   const getAllRezervations = async () => {
     fetch(`http://127.0.0.1:8000/api/booking/all`, {
@@ -41,15 +48,23 @@ function AllRezervations() {
                 {rezervation.room.category.name} {rezervation.room.id}
               </p>
               <div>
-                {moment(rezervation.start).format("LL")} -{" "}
-                {moment(rezervation.end).format("LL")} arası
+                {new Date(rezervation?.start!).toLocaleString(
+                  undefined,
+                  options
+                )}{" "}
+                -{" "}
+                {new Date(rezervation?.end!).toLocaleString(undefined, options)}{" "}
+                arası
               </div>
             </div>
             <div className="flex justify-between mt-5">
               <div className="flex gap-3 items-center">
                 <span>{rezervation.adults.length} Yetişkin</span> <VscPerson />
               </div>
-              <div>{rezervation.room.category.price}₺</div>
+              <div className="flex items-center gap-3">
+                <FaMoneyBillWave />
+                <span>{rezervation.room.category.price}₺</span>
+              </div>
               <div className="flex gap-3 items-center">
                 <span>{rezervation.childs.length} Çocuk</span> <BiChild />
               </div>

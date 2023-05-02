@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../../context/context";
 
 function Footer() {
+  const { user, logout }: any = useContext(AuthContext);
+
   return (
     <>
       <section className="footer">
@@ -23,11 +27,27 @@ function Footer() {
 
           <div className="box">
             <Link to={"/"}>Anasayfa</Link>
-            <a href="#about">Hakkında</a>
-            <a href="#availability">Rezervasyon</a>
-            <a href="#gallery">Galeri</a>
-            <a href="#contact">İletişim</a>
-            <a href="#reviews">Yorumlar</a>
+            {user && (user.is_superuser || user.receptionist) ? (
+              <Link to={"/room/all"}>Odalar</Link>
+            ) : null}
+            {user && (user.is_superuser || user.receptionist) ? (
+              <Link to={"/room-category/all"}>Oda Kategorileri</Link>
+            ) : null}
+            {user && user.is_superuser ? (
+              <Link to={"/rezervation/all"}>Rezervasyonlar</Link>
+            ) : null}
+            {!user ? (
+              <Link to={"/questions"}>Sıkça Sorulan Sorular</Link>
+            ) : null}
+            {user && (user.is_superuser || user.receptionist) ? (
+              <Link to={"/message/all"}>Mesajlar</Link>
+            ) : null}
+            {user ? <Link to={"/rezervation/my"}>Rezervasyonlarım</Link> : null}
+            {user ? (
+              <div onClick={logout}>Çıkış Yap</div>
+            ) : (
+              <Link to={"/login"}>Giriş Yap</Link>
+            )}
           </div>
 
           <div className="box">

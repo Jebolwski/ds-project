@@ -5,10 +5,10 @@ import "moment/locale/fr";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Room as RoomI } from "../../interfaces/Room";
-import moment from "moment";
 const CheckOut = () => {
   const location = useLocation();
   const { children, adult, room_id, start, end } = location.state;
+  const [diffDays, setDiffDays] = useState<number>();
 
   const navigate = useNavigate();
 
@@ -18,11 +18,12 @@ const CheckOut = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("key"),
       },
       body: JSON.stringify({
         children: childrenData,
         adults: adultsData,
-        price: room?.category.price! * 100 || 1 * 100,
+        price: diffDays! * (room?.category.price! * 100) || 1 * 100,
         start: start,
         end: end,
         room: room?.id,
@@ -50,6 +51,12 @@ const CheckOut = () => {
     setChildrens(arr1);
 
     getRoom();
+
+    const date2: any = new Date(end!);
+    const date1: any = new Date(start!);
+    const diffTime = Math.abs(date2 - date1);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    setDiffDays(diffDays);
   }, []);
 
   const getRoom = async () => {
@@ -96,18 +103,17 @@ const CheckOut = () => {
     setAdultsData(data);
     setChildrenData(data1);
   };
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
 
   const [adults, setAdults] = useState<number[]>();
   const [adultsData, setAdultsData] = useState<number[]>();
   const [childrenData, setChildrenData] = useState<number[]>();
   const [childrens, setChildrens] = useState<number[]>();
   const [room, setRoom] = useState<RoomI | undefined | null>(undefined);
-  const [startA, setStartA] = useState<string | undefined | null>(
-    moment(new Date(start)).format("LL")
-  );
-  const [endA, setEndA] = useState<string | undefined | null>(
-    moment(new Date(end)).format("LL")
-  );
 
   return (
     <>
@@ -197,9 +203,18 @@ const CheckOut = () => {
               {adult} Yetişkin - {children} Çocuk
             </span>
             <p className="my-4 text-3xl">
-              {startA} - {endA} arası
+              {new Date(start).toLocaleString(undefined, options)} -{" "}
+              {new Date(end).toLocaleString(undefined, options)} arası
             </p>
-            <p className="my-4 text-3xl">Toplam : {room?.category.price}₺</p>
+            {diffDays && room?.category.price ? (
+              <div
+                className="my-4
+ text-3xl font-normal"
+              >
+                Toplam : {room?.category.price * diffDays}₺ ({diffDays} gün x{" "}
+                {room?.category.price}₺)
+              </div>
+            ) : null}
             <input
               value={"Ödemen Yap"}
               className="btn w-full"

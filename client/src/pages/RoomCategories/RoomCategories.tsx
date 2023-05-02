@@ -51,7 +51,7 @@ function RoomCategories() {
             >
               <div className="flex justify-between items-center flex-wrap">
                 <h3 className="mb-3">{category.name}</h3>
-                {user && (user.is_superuser || user.receptionist) ? (
+                {user && user.is_superuser ? (
                   <Link to={`/room-category/${category.id}/delete`}>
                     <AiFillDelete size={24} />
                   </Link>

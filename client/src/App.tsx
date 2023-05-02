@@ -8,7 +8,6 @@ import Home from "./pages/Home/Home";
 import Header from "./components/Header/Header";
 import AuthProtect from "./pages/Protected/AuthProtect";
 import Footer from "./components/Footer/Footer";
-import BookRoomRec from "./pages/BookRoomRec/BookRoomRec";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { REACT_APP_STRIPE_KEY, GOOGLE_ID } from "./config/config";
@@ -34,6 +33,8 @@ import Message from "./pages/Message/Message";
 import RoomCategory from "./pages/RoomCategory/RoomCategory";
 import Room from "./pages/Room/Room";
 import MyRezervations from "./pages/MyRezervations/MyRezervations";
+import LoggedIn from "./pages/Protected/LoggedIn";
+import Questions from "./pages/Questions/Questions";
 
 const stripe_key = REACT_APP_STRIPE_KEY;
 const stripePromise = loadStripe(stripe_key);
@@ -49,8 +50,6 @@ function App() {
                 <Header />
                 <Routes>
                   <Route path="/" element={<Home />} />
-                  <Route path="/bookrec" element={<BookRoomRec />} />
-                  <Route path="/checkout/" index element={<CheckOut />} />
                   {/* Sadece Yönetici */}
                   <Route element={<SuperUserProtect />}>
                     {/* Oda Silme */}
@@ -67,13 +66,15 @@ function App() {
                       path="/rezervation/:id"
                       element={<RezervationDetail />}
                     />
+                    {/* Bütün Odalar */}
                     <Route path="/room/all" element={<Rooms />} />
-                    <Route path="/room/:id" element={<Room />} />
 
+                    {/* Bütün Oda Kategorileri */}
                     <Route
                       path="/room-category/all"
                       element={<RoomCategories />}
                     />
+                    {/* Oda Kategorisi Detay */}
                     <Route
                       path="/room-category/:id"
                       element={<RoomCategory />}
@@ -93,16 +94,31 @@ function App() {
                       path="/room-category/:id/delete"
                       element={<DeleteCategory />}
                     />
+                    {/* Bütün Mesajlar */}
                     <Route path="/message/all" element={<Messages />} />
+                    {/* Mesaj Detay */}
                     <Route path="/message/:id" element={<Message />} />
                   </Route>
-                  <Route path="/checkout/success/" element={<Success />} />
-                  <Route path="/checkout/failed/" element={<Cancel />} />
+                  <Route element={<LoggedIn />}>
+                    {/* Ödeme Başarılıysa */}
+                    <Route path="/checkout/success/" element={<Success />} />
+                    {/* Ödeme Başarısızsa */}
+                    <Route path="/checkout/failed/" element={<Cancel />} />
+                    {/* Kendi Rezervasyonlarım */}
+                    <Route
+                      path="/rezervation/my"
+                      element={<MyRezervations />}
+                    />
+                    {/* Ödeme sayfası */}
+                    <Route path="/checkout/" index element={<CheckOut />} />
+                  </Route>
+                  {/* Müsait oda bakma */}
                   <Route
                     path="/search-room/:start/:end/:children/:adult"
                     element={<SearchRoom />}
                   />
-                  <Route path="/rezervation/my" element={<MyRezervations />} />
+                  {/* Oda Detay */}
+                  <Route path="/room/:id" element={<Room />} />
                   {/* Sadece Giriş Yapmamışlar */}
                   <Route element={<AuthProtect />}>
                     {/* Giriş */}
@@ -110,6 +126,7 @@ function App() {
                     {/* Kayıt */}
                     <Route path="/register" element={<Register />} />
                   </Route>
+                  <Route path="/questions" element={<Questions />} />
                 </Routes>
                 <Footer />
               </AuthProvider>
