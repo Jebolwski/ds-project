@@ -7,7 +7,6 @@ import { AiOutlineMail } from "react-icons/ai";
 function Message() {
   const location = useLocation();
   const { message } = location.state;
-  console.log(message);
 
   return (
     <section className="text-white text-3xl">

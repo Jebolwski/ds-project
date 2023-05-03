@@ -216,7 +216,7 @@ const CheckOut = () => {
               </div>
             ) : null}
             <input
-              value={"Ödemen Yap"}
+              value={"Ödeme Yap"}
               className="btn w-full"
               type="submit"
               onClick={generateRezervData}

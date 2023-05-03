@@ -28,6 +28,8 @@ class RoomCategory(models.Model):
     max_children = models.IntegerField(null=False, blank=False)
     desc = models.TextField(max_length=400, null=False, blank=True)
     price = models.IntegerField(null=False, blank=False)
+    create = models.DateTimeField(auto_now=True, blank=True, null=True)
+    edit = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return self.name+" | "+str(self.price)+"tl"
@@ -41,6 +43,8 @@ class Room(models.Model):
     image2 = models.ImageField(upload_to='room_images', null=True, blank=True)
     image3 = models.ImageField(upload_to='room_images', null=True, blank=True)
     image4 = models.ImageField(upload_to='room_images', null=True, blank=True)
+    create = models.DateTimeField(auto_now=True, blank=True, null=True)
+    edit = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
 
@@ -68,6 +72,8 @@ class Message(models.Model):
     mail = models.CharField(null=True, blank=True, max_length=100)
     name = models.CharField(null=False, blank=False, max_length=70)
     number = models.CharField(max_length=12, null=False, blank=False)
+    create = models.DateTimeField(auto_now=True, blank=True, null=True)
+    edit = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return self.name + " | " + self.message[:40]+"..."
@@ -77,6 +83,8 @@ class Receptionist(models.Model):
     """Resepsiyonist modeli user verilerini içerir."""
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False, blank=False)
+    create = models.DateTimeField(auto_now=True, blank=True, null=True)
+    edit = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return self.user.username

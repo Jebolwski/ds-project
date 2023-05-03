@@ -3,7 +3,7 @@ import HotelContext from "../../context/hotelcontext";
 import { Room } from "../../interfaces/Room";
 import { Link, useParams } from "react-router-dom";
 
-function SearchRoom() {
+function SearchRoom2() {
   const params = useParams();
   const [diffDays, setDiffDays] = useState<number>();
   const { searchedRooms, searchRoom }: any = useContext(HotelContext);
@@ -50,7 +50,7 @@ function SearchRoom() {
                     ) : null}
                     <div className="flex justify-center items-center">
                       <Link
-                        to={"/checkout"}
+                        to={"/rezervation/add"}
                         state={{
                           children: params.children,
                           adult: params.adult,
@@ -73,4 +73,4 @@ function SearchRoom() {
   );
 }
 
-export default SearchRoom;
+export default SearchRoom2;

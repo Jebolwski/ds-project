@@ -35,6 +35,9 @@ import Room from "./pages/Room/Room";
 import MyRezervations from "./pages/MyRezervations/MyRezervations";
 import LoggedIn from "./pages/Protected/LoggedIn";
 import Questions from "./pages/Questions/Questions";
+import AddBooking2 from "./pages/AddBooking/AddBooking2";
+import AddBooking from "./pages/AddBooking/AddBooking";
+import SearchRoom2 from "./pages/SearchRoom/SearchRoom2";
 
 const stripe_key = REACT_APP_STRIPE_KEY;
 const stripePromise = loadStripe(stripe_key);
@@ -98,6 +101,17 @@ function App() {
                     <Route path="/message/all" element={<Messages />} />
                     {/* Mesaj Detay */}
                     <Route path="/message/:id" element={<Message />} />
+                    {/* Add Rezervation */}
+                    <Route
+                      path="/rezervation/add/select"
+                      element={<AddBooking2 />}
+                    />
+                    <Route path="/rezervation/add" element={<AddBooking />} />
+                    {/* Odaları Arama */}
+                    <Route
+                      path="/search-room/:start/:end/:children/:adult/2"
+                      element={<SearchRoom2 />}
+                    />
                   </Route>
                   <Route element={<LoggedIn />}>
                     {/* Ödeme Başarılıysa */}

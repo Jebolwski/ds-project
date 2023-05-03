@@ -304,14 +304,14 @@ function Home() {
           </SwiperSlide>
           <SwiperSlide>
             <div className="swiper-slide box grid place-items-center">
-              <img src={Pic3} alt="" />
+              <img src={Pic4} alt="" />
               <h3>Edanur Yıldız</h3>
               <p>Konum,odaların modern tasarımı ve rahatlığı çok güzeldi.</p>
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className="swiper-slide box grid place-items-center">
-              <img src={Pic4} alt="" />
+              <img src={Pic3} alt="" />
               <h3>Emre Aydın</h3>
               <p>
                 Konum olarak uygun bir oteldi. Otelin temizliği idare ederdi.
@@ -322,7 +322,7 @@ function Home() {
           </SwiperSlide>
           <SwiperSlide>
             <div className="swiper-slide box grid place-items-center">
-              <img src={Pic5} alt="" />
+              <img src={Pic2} alt="" />
               <h3>Gülsüm Küntür</h3>
               <p>
                 Otel gayet iyiydi bu sezonda kullanılacak en iyi yerlerden biri.
@@ -333,7 +333,7 @@ function Home() {
           </SwiperSlide>
           <SwiperSlide>
             <div className="swiper-slide box grid place-items-center">
-              <img src={Pic6} alt="" />
+              <img src={Pic5} alt="" />
               <h3>Tahir Ekrem</h3>
               <p>Tam bir fiyat performans yeri</p>
             </div>

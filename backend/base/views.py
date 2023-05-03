@@ -249,7 +249,7 @@ def GetAllRooms(request):
     if Receptionist.Security(request):
         return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
 
-    recep = Room.objects.all()
+    recep = Room.objects.all().order_by('-create')
     serializer = RoomSerializer(recep, many=True)
     return Response({"data": serializer.data}, status=200)
 
@@ -466,7 +466,7 @@ def SearchRoom(request):
 
 @api_view(['GET'])
 def GetAllMessages(request):
-    mess = Message.objects.all()
+    mess = Message.objects.all().order_by('-create')
     serializer = MessageSerializer(mess, many=True)
     return Response({"data": serializer.data}, status=200)
 
@@ -558,7 +558,7 @@ def CreateBookingReception(request):
                     children.push(Child.id)
 
         data = {"childs": children.stack, "adults": adults.stack, "room": request.data.get(
-            'room'), "start": request.data.get('start'), "end": request.data.get('end')}
+            'room'), "start": request.data.get('start'), "end": request.data.get('end'), "user": request.user.id}
         booking = BookingAddSerializer(data=data, many=False)
         if booking.is_valid():
             book = booking.save()
@@ -575,7 +575,7 @@ def CreateBookingReception(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
 def GetAllRezervations(request):
-    allRezerv = Booking.objects.all()
+    allRezerv = Booking.objects.all().order_by('-start')
     serializer = BookingSerializer(allRezerv, many=True)
     return Response({"data": serializer.data}, status=200)
 
@@ -767,7 +767,7 @@ def GetBooking(request, id):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def MyBookings(request):
-    bookings = Booking.objects.filter(user=request.user)
+    bookings = Booking.objects.filter(user=request.user).order_by('-start')
     serializer = BookingSerializer(bookings, many=True)
     return Response({"data": serializer.data}, status=200)
 

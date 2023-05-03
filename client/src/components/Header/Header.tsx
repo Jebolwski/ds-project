@@ -55,6 +55,9 @@ function Header() {
           {user && (user.is_superuser || user.receptionist) ? (
             <Link to={"/message/all"}>Mesajlar</Link>
           ) : null}
+          {user && (user.is_superuser || user.receptionist) ? (
+            <Link to={"/rezervation/add/select"}>Rezerve Et</Link>
+          ) : null}
           {user ? <Link to={"/rezervation/my"}>Rezervasyonlarım</Link> : null}
           {user ? (
             <div onClick={logout}>Çıkış Yap</div>

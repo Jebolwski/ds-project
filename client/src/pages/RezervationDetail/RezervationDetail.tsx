@@ -23,6 +23,12 @@ function RezervationDetail() {
     });
   }, []);
 
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
   return (
     <>
       {booking ? (
@@ -81,9 +87,13 @@ function RezervationDetail() {
               <div className="right-area p-4 rounded-lg shadow-md hover:shadow-lg duration-200">
                 <h4 className="underline font-bold mb-2">Genel Bilgiler</h4>
                 <p className="my-1">
-                  Giriş Tarihi : {booking?.start.toString()}
+                  Giriş Tarihi :{" "}
+                  {new Date(booking?.start).toLocaleString(undefined, options)}
                 </p>
-                <p className="my-1">Çıkış Tarihi : {booking?.end.toString()}</p>
+                <p className="my-1">
+                  Çıkış Tarihi :{" "}
+                  {new Date(booking?.end).toLocaleString(undefined, options)}
+                </p>
                 <p className="my-1">
                   Yetişkin Sayısı : {booking?.adults.length}
                 </p>
