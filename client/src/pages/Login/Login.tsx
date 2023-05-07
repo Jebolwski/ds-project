@@ -51,10 +51,11 @@ function Login() {
                 <input
                   type="text"
                   required
+                  minLength={3}
                   onChange={(e) => {
                     setUsername(e.target.value);
                   }}
-                  className="w-full p-2 border border-stone-200 rounded-lg duration-200 shadow-md hover:shadow-lg text-xl"
+                  className="w-full p-2 border font-semibold border-stone-200 rounded-lg duration-200 shadow-md hover:shadow-lg text-xl"
                 />
               </div>
               <div className="flex items-center gap-1 mt-8">
@@ -65,10 +66,11 @@ function Login() {
                 <input
                   type="password"
                   required
+                  minLength={6}
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
-                  className="w-full p-2 border border-stone-200 rounded-lg duration-200 shadow-md hover:shadow-lg text-xl"
+                  className="w-full p-2 border font-semibold border-stone-200 rounded-lg duration-200 shadow-md hover:shadow-lg text-xl"
                 />
               </div>
             </div>

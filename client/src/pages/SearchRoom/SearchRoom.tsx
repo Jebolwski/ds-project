@@ -15,7 +15,11 @@ function SearchRoom() {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     setDiffDays(diffDays);
   }, []);
-
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
   return (
     <section>
       {searchedRooms && searchedRooms.length > 0
@@ -69,6 +73,14 @@ function SearchRoom() {
             );
           })
         : null}
+      {searchedRooms && searchedRooms.length == 0 ? (
+        <div className="text-white font-semibold text-center text-3xl my-5">
+          Şu anda {new Date(params.start!).toLocaleString(undefined, options)} -{" "}
+          {new Date(params.end!).toLocaleString(undefined, options)} arasında,{" "}
+          {params.adult} yetişkin {params.children} çocuk için uygun oda
+          bulunmamaktadır. 😞
+        </div>
+      ) : null}
     </section>
   );
 }

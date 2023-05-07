@@ -102,9 +102,20 @@ class Stack:
     def pop(self):
         return self.stack.pop()
 
+    def __str__(self):
+        string = ""
+        for i in self.queue:
+            string += " | " + str(i) + " | "
+        string += "\n"
+        return string
+
     def print(self):
         for i in self.stack:
             print(" | " + str(i) + " | ")
+
+    def __add__(self, other):
+        self.stack = self.stack+other
+        return self
 
     def peek(self):
         return self.stack[-1]
@@ -115,15 +126,26 @@ class Queue:
     def __init__(self):
         self.queue = []
 
-    def push(self, val):
+    def enqueue(self, val):
         self.queue.insert(0, val)
 
-    def pop(self):
+    def dequeue(self):
         return self.stack.pop()
+
+    def __str__(self):
+        string = ""
+        for i in self.queue:
+            string += str(i) + " -> "
+        string += "\n"
+        return string
+
+    def __add__(self, other):
+        self.queue = self.queue+other
+        return self
 
     def print(self):
         for i in self.queue:
-            print(str(i) + " -> ")
+            print(str(i) + " -> \n")
 
     def peek(self):
         return self.queue[-1]
@@ -176,12 +198,17 @@ def Routes(request):
 def Register(request):
     """Kullanıcı kaydı yapar. email, username, password1, password2 verilerini alır."""
     if request.data:
-        mails = [i.email for i in User.objects.all()]
-        if request.data.get('email') in mails:
+        if request.data.get('password1') != request.data.get('password2'):
+            return Response({"msg_en": "Passwords dont match. 😞", "msg_tr": "Şifreler uyuşmuyor. 😞"}, status=400)
+        queue = Queue()
+        for i in User.objects.all():
+            queue.enqueue(i.email)
+        print(queue)
+        if request.data.get('email') in queue.queue:
             return Response({"msg_en": "This email already in use. 😢", "msg_tr": "Girdiğiniz email kullanımda. 😢"}, status=400)
         form = SignupForm(request.data)
         if form.is_valid():
-            user = form.save()
+            form.save()
             return Response({"msg_en": "Successfully registered. ✨", "msg_tr": "Başarıyla kayıt olundu. ✨"}, status=200)
         else:
             print(form.errors)
@@ -408,6 +435,9 @@ def SearchRoom(request):
     if request.GET.get('start') == None:
         return Response({"msg_en": "You didnt enter start date. 😶", "msg_tr": "Giriş tarihini girmediniz. 😶"}, status=400)
 
+    if datetime.datetime.strptime(request.GET.get('start'), '%Y-%m-%d').date() < datetime.date.now():
+        return Response({"msg_en": "You cant book on a past date. 😶", "msg_tr": "Geçmiş bir tarihe rezervasyon yapamazsınız. 😞"}, status=400)
+
     if request.GET.get('end') == None:
         return Response({"msg_en": "You didnt enter end date. 😶", "msg_tr": "Çıkış tarihini girmediniz. 😶"}, status=400)
 
@@ -426,6 +456,7 @@ def SearchRoom(request):
     """
         getirilen kategorilere sahip olan odalar getiriliyor
     """
+
     odalar = LinkedList()
 
     for i in categories:
@@ -609,14 +640,11 @@ def CancelBooking(request, id):
 
 @api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAdminUser])
 def RemoveBooking(request, id):
     """
         Rezervasyon silinir, id parametresi alınır.
     """
-
-    if Receptionist.Security(request):
-        return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
 
     booking = Booking.objects.filter(id=id)
     if len(booking) > 0:
@@ -626,7 +654,7 @@ def RemoveBooking(request, id):
         for adult in booking.adults.all():
             adult.delete()
         booking.delete()
-        return Response({"msg_en": "Sucessfully deleted booking. 🚀", "msg_tr": "Rezervasyon silindi. 🚀"}, status=200)
+        return Response({"msg_en": "Sucessfully deleted booking. 🚀", "msg_tr": "Rezervasyon başrıyla silindi. 🚀"}, status=200)
     else:
         return Response({"msg_en": "Couldnt find the booking. 😥", "msg_tr": "Rezervasyon bulunamadı. 😥"}, status=400)
 
@@ -756,8 +784,9 @@ def Payment(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def GetBooking(request, id):
-    if Receptionist.Security(request):
-        return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
+    # if Receptionist.Security(request):
+    #     return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
+
     booking = get_object_or_404(Booking, id=id)
     data = BookingSerializer(booking, many=False)
     return Response({"data": data.data}, status=200)

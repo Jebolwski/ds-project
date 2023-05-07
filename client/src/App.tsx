@@ -38,6 +38,8 @@ import Questions from "./pages/Questions/Questions";
 import AddBooking2 from "./pages/AddBooking/AddBooking2";
 import AddBooking from "./pages/AddBooking/AddBooking";
 import SearchRoom2 from "./pages/SearchRoom/SearchRoom2";
+import CancelRezervation from "./pages/CancelRezervation/CancelRezervation";
+import DeleteRezervation from "./pages/DeleteRezervation/DeleteRezervation";
 
 const stripe_key = REACT_APP_STRIPE_KEY;
 const stripePromise = loadStripe(stripe_key);
@@ -48,8 +50,8 @@ function App() {
         <Router>
           <Elements stripe={stripePromise}>
             {/* Same as */}
-            <HotelProvider>
-              <AuthProvider>
+            <AuthProvider>
+              <HotelProvider>
                 <Header />
                 <Routes>
                   <Route path="/" element={<Home />} />
@@ -61,6 +63,11 @@ function App() {
                       path="/rezervation/all"
                       element={<AllRezervations />}
                     />
+                    {/* Rezervasyonu Sil */}
+                    <Route
+                      path="/rezervation/:id/delete"
+                      element={<DeleteRezervation />}
+                    />
                   </Route>
                   {/* Sadece Resepsiyon ve Yönetici */}
                   <Route element={<ReceptionistProtect />}>
@@ -69,6 +76,7 @@ function App() {
                       path="/rezervation/:id"
                       element={<RezervationDetail />}
                     />
+
                     {/* Bütün Odalar */}
                     <Route path="/room/all" element={<Rooms />} />
 
@@ -113,6 +121,7 @@ function App() {
                       element={<SearchRoom2 />}
                     />
                   </Route>
+                  {/* Müşteriler */}
                   <Route element={<LoggedIn />}>
                     {/* Ödeme Başarılıysa */}
                     <Route path="/checkout/success/" element={<Success />} />
@@ -124,7 +133,12 @@ function App() {
                       element={<MyRezervations />}
                     />
                     {/* Ödeme sayfası */}
-                    <Route path="/checkout/" index element={<CheckOut />} />
+                    <Route path="/checkout/" element={<CheckOut />} />
+                    {/* Rezervasyonun İptali */}
+                    <Route
+                      path="/rezervation/:id/cancel"
+                      element={<CancelRezervation />}
+                    />
                   </Route>
                   {/* Müsait oda bakma */}
                   <Route
@@ -143,8 +157,8 @@ function App() {
                   <Route path="/questions" element={<Questions />} />
                 </Routes>
                 <Footer />
-              </AuthProvider>
-            </HotelProvider>
+              </HotelProvider>
+            </AuthProvider>
           </Elements>
         </Router>
         <ToastContainer

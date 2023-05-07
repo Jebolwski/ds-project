@@ -77,37 +77,77 @@ function Questions() {
           <h3 className="title">SIKÇA SORULAN SORULAR</h3>
           <div className="box active">
             <h3>Nasıl iptal ederim?</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus
-              sunt aspernatur excepturi eos! Quibusdam, sapiente.
-            </p>
+            <div>
+              <p>
+                Otel rezervasyonunuzu iptal etmek için aşağıdaki adımları takip
+                edebilirsiniz:
+              </p>
+              <p>
+                1. Otel web sitemize giriş yapın ve “Rezervasyonlarım” bölümüne
+                gidin.
+              </p>
+              <p>
+                2. İptal etmek istediğiniz rezervasyonunuzu seçin. “İptal Et”
+                butonuna tıklayın.
+              </p>
+              <p>
+                3. İptal işleminizi tamamlamak için İptal Et” butonuna tıklayın.
+              </p>
+              <p>
+                4. Lütfen iptal işlemi için son iptal tarihini geçirmeden önce
+                işlem yapın, aksi takdirde iptal işlemi gerçekleştirilemeyebilir
+                veya ücret iadesi yapılmayabilir.
+              </p>
+            </div>
           </div>
           <div className="box">
             <h3>Boş oda var mı?</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa
-              ipsam neque quaerat mollitia ratione? Soluta!
+              Bunun için anasayfadan gerekli verileri girerek müsait odaları
+              görebilirsiniz.
             </p>
           </div>
           <div className="box">
             <h3>Ödeme yöntemleri neler?</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa
-              ipsam neque quaerat mollitia ratione? Soluta!
-            </p>
+            <div>
+              <p>
+                Otellerimizde konaklamalarınız için çeşitli ödeme yöntemleri
+                sunmaktayız. Kabul ettiğimiz ödeme yöntemleri şunlardır:
+              </p>
+              <p>
+                Kredi kartı: Otelimizde konaklamanız için kredi kartı ile ödeme
+                yapabilirsiniz. Kabul ettiğimiz kredi kartları Visa, Mastercard
+                ve American Express'tir. Kredi kartı ile ödeme yapmak isteyen
+                müşterilerimiz, web sitemizdeki ödeme sayfasında kredi kartı
+                bilgilerini girmeleri gerekmektedir.
+              </p>
+              <p>
+                Banka havalesi: Konaklama için ödeme yapmak için banka havalesi
+                yöntemini de kabul etmekteyiz. Banka havalesi ile ödeme yapmak
+                isteyen müşterilerimiz, otelimiz tarafından sağlanan banka hesap
+                bilgilerine gönderme yapabilirler.
+              </p>
+              <p>
+                Ön ödemeli kartlar: Bazı otellerimiz ön ödemeli kartlarla ödeme
+                yapmanıza izin vermektedir. Bu kartlar ödeme yapmadan önce
+                yüklendiği için, güvenli bir ödeme yöntemi olarak kabul edilir.
+              </p>
+              <p>
+                Lütfen dikkat edin: Kabul ettiğimiz ödeme yöntemleri otelimize
+                göre farklılık gösterir. Ödeme yöntemlerinin değişebileceğini
+                unutmayın, bu nedenle web sitemizdeki ödeme sayfasını ziyaret
+                etmeden önce en güncel bilgiler için bizimle iletişime geçin.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa
+                ipsam neque quaerat mollitia ratione? Soluta!
+              </p>
+            </div>
           </div>
-          <div className="box">
-            <h3>Kupon kodumu nasıl kullanabilirim?</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa
-              ipsam neque quaerat mollitia ratione? Soluta!
-            </p>
-          </div>
+
           <div className="box">
             <h3>Yaş gereksinimi nedir?</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa
-              ipsam neque quaerat mollitia ratione? Soluta!
+              0-12 yaş arası çocuk olarak kabul edilir. 12 yaşından büyükler
+              yetişkin olarak kabul edilir.
             </p>
           </div>
         </div>

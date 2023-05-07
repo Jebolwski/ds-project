@@ -13,6 +13,9 @@ function AddBooking2() {
           if (start > end) {
             toast.error("Giriş tarihi çıkış tarihinden büyük olamaz. 😶");
             return;
+          } else if (new Date(start) < new Date(Date.now())) {
+            toast.error("Geçmiş bir tarihe rezervasyon alınamaz. 😞");
+            return;
           }
           let adult: number = e.target.adult.value;
           let children: number = e.target.children.value;

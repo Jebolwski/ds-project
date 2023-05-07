@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Message as MessageI } from "../../interfaces/Message";
-import { AiOutlineMail } from "react-icons/ai";
+import { AiOutlineMail, AiFillDelete } from "react-icons/ai";
 import { FaUserSecret } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -8,10 +8,15 @@ function Messages() {
   const [messages, setMessages] = useState<MessageI[]>();
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/message/all`, {
+    getMessages();
+  }, []);
+
+  const getMessages = async () => {
+    await fetch(`http://127.0.0.1:8000/api/message/all`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Token " + localStorage.getItem("key"),
       },
     }).then(async (resp: Response) => {
       if (resp.status == 200) {
@@ -19,7 +24,7 @@ function Messages() {
         setMessages(data.data);
       }
     });
-  }, []);
+  };
 
   return (
     <section className="text-white text-3xl">
@@ -32,9 +37,10 @@ function Messages() {
             <Link
               to={`/message/${message.id}`}
               state={{ message: message }}
+              key={message.id}
               className="bg-[#421c08]/50 block mt-5 p-5 rounded-lg shadow-md hover:shadow-lg duration-200"
             >
-              <div className="flex flex-wrap sm:justify-between justify-center gap-4 items-center mb-4">
+              <div className="flex flex-wrap sm:justify-between justify-center gap-8 items-center mb-4">
                 <div className="flex items-center gap-2">
                   <FaUserSecret />
                   <span>{message.name}</span>

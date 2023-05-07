@@ -7,6 +7,7 @@ import moment from "moment";
 import { BiChild } from "react-icons/bi";
 import { VscPerson } from "react-icons/vsc";
 import { FaMoneyBillWave } from "react-icons/fa";
+import { MdFreeCancellation } from "react-icons/md";
 
 function MyRezervations() {
   const { user }: any = useContext(AuthContext);
@@ -40,6 +41,7 @@ function MyRezervations() {
           if (user && (user.receptionist || user.is_superuser)) {
             return (
               <Link
+                key={rezervation.id}
                 to={`/rezervation/${rezervation.id}`}
                 className="w-full block bg-[#421c08]/50 mt-5 p-5 rounded-lg shadow-md hover:shadow-lg duration-200"
               >
@@ -47,6 +49,13 @@ function MyRezervations() {
                   <p>
                     {rezervation.room.category.name} {rezervation.room.id}
                   </p>
+                  <Link
+                    to={`/rezervation/${rezervation.id}/cancel`}
+                    className="flex gap-4 items-center"
+                  >
+                    <MdFreeCancellation />
+                    <span>İptal Et</span>
+                  </Link>
                   <div>
                     {moment(rezervation.start).format("LL")} -{" "}
                     {moment(rezervation.end).format("LL")} arası
@@ -69,11 +78,21 @@ function MyRezervations() {
             );
           } else {
             return (
-              <div className="w-full bg-[#421c08]/50 mt-5 p-5 rounded-lg shadow-md hover:shadow-lg duration-200">
+              <div
+                key={rezervation.id}
+                className="w-full bg-[#421c08]/50 mt-5 p-5 rounded-lg shadow-md hover:shadow-lg duration-200"
+              >
                 <div className="flex flex-wrap sm:justify-between justify-center items-center lg:gap-8 gap-5">
                   <p>
                     {rezervation.room.category.name} {rezervation.room.id}
                   </p>
+                  <Link
+                    to={`/rezervation/${rezervation.id}/cancel`}
+                    className="flex gap-4 items-center"
+                  >
+                    <MdFreeCancellation />
+                    <span>İptal Et</span>
+                  </Link>
                   <div>
                     {new Date(rezervation?.start!).toLocaleString(
                       undefined,

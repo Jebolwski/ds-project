@@ -89,6 +89,9 @@ export const AuthProvider = ({ children }: any) => {
         let data: any = await resp.json();
         setKey(data["key"]);
         localStorage.setItem("key", data["key"]);
+        toast.success("Başarıyla giriş yapıldı. ✨");
+      } else if (resp.status == 400) {
+        toast.error("Girdiğiniz kullanıcı adı veya şifre hatalı. 😞");
       }
     });
   };
@@ -111,8 +114,12 @@ export const AuthProvider = ({ children }: any) => {
         password2: password1,
       }),
     }).then(async (resp: Response) => {
+      let data = await resp.json();
       if (resp.status == 200) {
         navigate("/login");
+        toast.success(data.msg_tr);
+      } else if (resp.status == 400) {
+        toast.error(data.msg_tr);
       }
     });
   };
