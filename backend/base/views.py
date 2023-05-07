@@ -273,6 +273,7 @@ def GetACategory(request, id):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def GetAllRooms(request):
+    """Bütün odaları getirir. (resepsiyon ve yönetici yapabilir)"""
     if Receptionist.Security(request):
         return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
 
@@ -285,6 +286,7 @@ def GetAllRooms(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def GetAllRoomsCategorys(request):
+    """Bütün oda kategorilerini getirir. (resepsiyon ve yönetici yapabilir)"""
     if Receptionist.Security(request):
         return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
 
@@ -497,6 +499,13 @@ def SearchRoom(request):
 
 @api_view(['GET'])
 def GetAllMessages(request):
+    """Bütün mesajları getirir. (resepsiyon ve yönetici yapabilir)"""
+    
+    if Receptionist.Security(request):
+        return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
+
+
+    
     mess = Message.objects.all().order_by('-create')
     serializer = MessageSerializer(mess, many=True)
     return Response({"data": serializer.data}, status=200)
@@ -505,6 +514,7 @@ def GetAllMessages(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def SendMessage(request):
+    """Mesaj gönderir. message, mail, name, number verilerini alır."""
     if request.data.get('message') == None:
         return Response({"msg_en": "You didnt enter your message. 😶", "msg_tr": "Mesajı girmediniz. 😶"}, status=400)
     if request.data.get('mail') == None:
@@ -527,6 +537,7 @@ def SendMessage(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
 def DeleteMessage(request, id):
+    """Mesaj siler. (yönetici yapabilir)"""
     message = Message.objects.filter(id=id)
     if len(message) > 0:
         message = message[0]
@@ -606,6 +617,7 @@ def CreateBookingReception(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
 def GetAllRezervations(request):
+    """Bütün rezervasyonları getirir."""
     allRezerv = Booking.objects.all().order_by('-start')
     serializer = BookingSerializer(allRezerv, many=True)
     return Response({"data": serializer.data}, status=200)
@@ -702,6 +714,7 @@ def DeleteFeedback(request, id):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def Payment(request):
+    """Rezervasyon ödemesi ve veritabanına eklenmesi yapılır. price, product_name, start, end, adults, children verilerini alır"""
     if request.data.get('price') == None:
         return Response({"msg_en": "Price wasnt entered. 😥", "msg_tr": "Fiyat girilmedi. 😥"}, status=400)
     if request.data.get('product_name') == None:
@@ -784,6 +797,7 @@ def Payment(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def GetBooking(request, id):
+    """Bir rezervasyonu getirir. id parametresi alır."""
     # if Receptionist.Security(request):
     #     return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
 
@@ -796,6 +810,7 @@ def GetBooking(request, id):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def MyBookings(request):
+    """Kullanıcının rezervasyonlarını döndürür."""
     bookings = Booking.objects.filter(user=request.user).order_by('-start')
     serializer = BookingSerializer(bookings, many=True)
     return Response({"data": serializer.data}, status=200)
