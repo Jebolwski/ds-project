@@ -81,7 +81,7 @@ function RoomCategories() {
         })
       ) : (
         <h3 className="text-center mt-5">
-          Herhangi bir mesaj gönderilmemiş. 😥
+          Herhangi bir oda kategorisi kaydedilmemiş. 😥
         </h3>
       )}
     </section>

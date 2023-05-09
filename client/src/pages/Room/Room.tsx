@@ -57,11 +57,11 @@ function Room() {
               </div>
             </SwiperSlide>
           ) : null}
-          {room.image3 ? (
+          {room.image4 ? (
             <SwiperSlide>
               <div className="max-h-[30rem] overflow-hidden">
                 <img
-                  src={"http://127.0.0.1:8000" + room.image3}
+                  src={"http://127.0.0.1:8000" + room.image4}
                   className="w-full"
                 />
               </div>

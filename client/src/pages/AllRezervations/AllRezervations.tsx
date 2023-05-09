@@ -40,6 +40,10 @@ function AllRezervations() {
       ) : null}
       {rezervations && rezervations.length > 0
         ? rezervations?.map((rezervation: BookingI, index: number) => {
+            const differenceMs =
+              new Date(rezervation?.end!) - new Date(rezervation?.start!);
+            const differenceDays = differenceMs / (1000 * 3600 * 24);
+
             return (
               <Link
                 to={`/rezervation/${rezervation.id}`}
@@ -76,7 +80,9 @@ function AllRezervations() {
                   </div>
                   <div className="flex items-center gap-3">
                     <FaMoneyBillWave />
-                    <span>{rezervation.room.category.price}₺</span>
+                    <span>
+                      {rezervation.room.category.price * differenceDays}₺
+                    </span>
                   </div>
                   <div className="flex gap-3 items-center">
                     <span>{rezervation.childs.length} Çocuk</span> <BiChild />
