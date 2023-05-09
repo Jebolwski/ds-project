@@ -48,10 +48,8 @@ class LinkedList:
             self.head = Node(value)
             self.end = Node(value)
         else:
-            current = self.head
-            while (current.next != None):
-                current = current.next
-            current.next = Node(value)
+            self.end.next = Node(value)
+            self.end=self.end.next
 
     def addSorted(self, value):
         if self.head == None:
@@ -213,13 +211,11 @@ class BinaryTree:
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
 
-        # Add custom claims
         token['username'] = user.username
         token['email'] = user.email
         token['is_authenticated'] = user.is_authenticated
