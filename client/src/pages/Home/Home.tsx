@@ -93,6 +93,12 @@ function Home() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            if (!user) {
+              toast.info(
+                "Bu eylemi gerçekleştirebilmek için giriş yapmanız gerekir. 😞"
+              );
+              return;
+            }
             let start: Date = e.target.check_in.value;
             let end: Date = e.target.check_out.value;
             if (start > end) {

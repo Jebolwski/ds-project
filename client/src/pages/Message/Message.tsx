@@ -2,7 +2,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { AiFillPhone } from "react-icons/ai";
 import { AiOutlineMail, AiFillDelete } from "react-icons/ai";
 import { toast } from "react-toastify";
+import { useContext } from "react";
+import AuthContext from "../../context/context";
 function Message() {
+  const { user }: any = useContext(AuthContext);
   const location = useLocation();
   const { message } = location.state;
   const navigate = useNavigate();
@@ -28,12 +31,14 @@ function Message() {
       <div className="bg-[#421c08]/50 mt-5 p-5 rounded-lg shadow-md hover:shadow-lg duration-200">
         <div className="flex justify-between items-center">
           <h3 className="font-semibold mb-3">{message.name}</h3>
-          <AiFillDelete
-            className="cursor-pointer"
-            onClick={() => {
-              deleteMessage(message.id);
-            }}
-          />
+          {user && user.is_superuser ? (
+            <AiFillDelete
+              className="cursor-pointer"
+              onClick={() => {
+                deleteMessage(message.id);
+              }}
+            />
+          ) : null}
         </div>
         <p>{message.message}</p>
         <div className="flex justify-between flex-wrap items-center">

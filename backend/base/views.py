@@ -154,7 +154,8 @@ class TreeNode:
         self.data = data
         self.left = None
         self.right = None
- 
+
+
 class BinaryTree:
     
     def __init__(self):
@@ -396,8 +397,8 @@ def GetAllRoomsCategorys(request):
         print("Queue linked listten "+str((diff1-diff)*1000)+" milisaniye daha fazla zaman aldı.")
     else:
         print("Queue linked list ile aynı zamanı aldı.")
-
-    serializer = CategorySerializer(list.list(), many=True)
+    print(list.list())
+    serializer = CategorySerializer(queue.queue, many=True)
     return Response({"data": serializer.data}, status=200)
 
 
@@ -836,7 +837,6 @@ def Payment(request):
 
     price = request.data.get('price')
     product_name = request.data.get('product_name')
-    idn = 0
     if (request.data.get('start') > request.data.get('end')):
         return Response({"msg_tr": "Giriş tarihi çıkış tarihinden büyük olamaz. 😶", "msg_en": "Check in date cant be bigger than check out date. 😶"}, status=400)
 
@@ -881,13 +881,13 @@ def Payment(request):
                         children.push(Child.id)
                     else:
                         print(adult.errors)
+            
             data = {"childs": children.stack, "adults": adults.stack, "room": request.data.get('room'),
                     "start": request.data.get('start'), "end": request.data.get('end'), 'user': request.user.id}
 
             booking = BookingAddSerializer(data=data, many=False)
             if booking.is_valid():
                 book = booking.save()
-                idn = book.id
                 return Response({"url": checkout_session.get('url')}, status=200)
             else:
                 print(booking.errors)
@@ -896,11 +896,6 @@ def Payment(request):
             return Response({"msg_en": "No data was given to us. 🥲", "msg_tr": "Bize veri verilmedi. 🥲"}, status=400)
 
     except Exception as e:
-        if idn != 0:
-            feedback = Feedback.objects.filter(id=idn)
-            if len(feedback) > 0:
-                feedback = feedback[0]
-                feedback.delete()
         print("==============")
         print(e)
         print("==============")

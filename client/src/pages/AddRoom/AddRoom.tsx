@@ -27,7 +27,11 @@ function AddRoom() {
 
   const addRoom = async () => {
     let formdata: FormData = new FormData();
-    formdata.append("category", categoryId!);
+    if (!categoryId) {
+      formdata.append("category", categorys[0].id);
+    } else {
+      formdata.append("category", categoryId!);
+    }
     if (file1) {
       formdata.append("image1", file1!, file1?.name);
     }
