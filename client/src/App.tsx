@@ -40,6 +40,7 @@ import AddBooking from "./pages/AddBooking/AddBooking";
 import SearchRoom2 from "./pages/SearchRoom/SearchRoom2";
 import CancelRezervation from "./pages/CancelRezervation/CancelRezervation";
 import DeleteRezervation from "./pages/DeleteRezervation/DeleteRezervation";
+import NotFound from "./pages/NotFound/NotFound";
 
 const stripe_key = REACT_APP_STRIPE_KEY;
 const stripePromise = loadStripe(stripe_key);
@@ -155,6 +156,7 @@ function App() {
                     <Route path="/register" element={<Register />} />
                   </Route>
                   <Route path="/questions" element={<Questions />} />
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
                 <Footer />
               </HotelProvider>

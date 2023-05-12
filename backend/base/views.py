@@ -21,12 +21,12 @@ from django.shortcuts import get_object_or_404
 import time
 
 
-
 class Node:
 
     def __init__(self, value):
         self.value = value
         self.next = None
+
 
 class LinkedList:
 
@@ -49,7 +49,7 @@ class LinkedList:
             self.end = Node(value)
         else:
             self.end.next = Node(value)
-            self.end=self.end.next
+            self.end = self.end.next
 
     def addSorted(self, value):
         if self.head == None:
@@ -90,6 +90,7 @@ class LinkedList:
         else:
             return []
 
+
 class Stack:
 
     def __init__(self):
@@ -118,6 +119,7 @@ class Stack:
 
     def peek(self):
         return self.stack[-1]
+
 
 class Queue:
 
@@ -148,7 +150,9 @@ class Queue:
     def peek(self):
         return self.queue[-1]
 
-#? Binary tree ağacı, düğümleri rezervasyonların başlangıç tarihine göre ekliyor
+# ? Binary tree ağacı, düğümleri rezervasyonların başlangıç tarihine göre ekliyor
+
+
 class TreeNode:
     def __init__(self, data):
         self.data = data
@@ -157,16 +161,16 @@ class TreeNode:
 
 
 class BinaryTree:
-    
+
     def __init__(self):
         self.root = None
- 
+
     def insert(self, data):
         if not self.root:
             self.root = TreeNode(data)
         else:
             self._insert(data, self.root)
- 
+
     def _insert(self, data, current_node):
         if data.start < current_node.data.start:
             if not current_node.left:
@@ -187,7 +191,7 @@ class BinaryTree:
             return False
         else:
             return None
- 
+
     def _find(self, data, current_node):
         if data == current_node.data:
             return True
@@ -196,10 +200,11 @@ class BinaryTree:
         elif data > current_node.data and current_node.right:
             return self._find(data, current_node.right)
         return False
-    
+
     def treeInList(self):
-        arr=[]
+        arr = []
         #!preorder
+
         def helper(node):
             if not node:
                 return
@@ -211,6 +216,7 @@ class BinaryTree:
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -255,6 +261,7 @@ def Routes(request):
 def Register(request):
     """Kullanıcı kaydı yapar. email, username, password1, password2 verilerini alır."""
     if request.data:
+        print(request.data)
         if request.data.get('password1') != request.data.get('password2'):
             return Response({"msg_en": "Passwords dont match. 😞", "msg_tr": "Şifreler uyuşmuyor. 😞"}, status=400)
         queue = Queue()
@@ -334,30 +341,32 @@ def GetAllRooms(request):
     """Bütün odaları getirir. (resepsiyon ve yönetici yapabilir)"""
     if Receptionist.Security(request):
         return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
-    
+
     #!Linked list
     start = time.time()
     recep = Room.objects.all().order_by('-create')
     list = LinkedList()
     for i in recep:
         list.addToEnd(i)
-    diff=(time.time() - start)
+    diff = (time.time() - start)
     print("Linked list kullanmak "+str(diff*1000)+" milisaniye zaman aldı.")
-    
+
     #!Stack
     start1 = time.time()
     recep1 = Room.objects.all().order_by('-create')
     stack = Stack()
     for i in recep1:
         stack.push(i)
-    diff1=(time.time() - start1)
+    diff1 = (time.time() - start1)
     print("Stack kullanmak "+str(diff1*1000)+" milisaniye zaman aldı.")
-    
+
     #!Fark
-    if diff>diff1:
-        print("Linked list stackden "+str((diff-diff1)*1000)+" milisaniye daha fazla zaman aldı.")
-    elif diff1>diff:
-        print("Stack linked listten "+str((diff1-diff)*1000)+" milisaniye daha fazla zaman aldı.")
+    if diff > diff1:
+        print("Linked list stackden "+str((diff-diff1)*1000) +
+              " milisaniye daha fazla zaman aldı.")
+    elif diff1 > diff:
+        print("Stack linked listten "+str((diff1-diff)*1000) +
+              " milisaniye daha fazla zaman aldı.")
     else:
         print("Stack linked list ile aynı zamanı aldı.")
     serializer = RoomSerializer(stack.stack, many=True)
@@ -378,23 +387,26 @@ def GetAllRoomsCategorys(request):
     list = LinkedList()
     for i in recep:
         list.addToEnd(i)
-    diff=(time.time() - start)
-    print("Linked list kullanmak "+str((time.time() - start)*1000)+" milisaniye zaman aldı.")
-    
+    diff = (time.time() - start)
+    print("Linked list kullanmak " +
+          str((time.time() - start)*1000)+" milisaniye zaman aldı.")
+
     #!Queue
     start1 = time.time()
     recep1 = RoomCategory.objects.all()
     queue = Queue()
     for i in recep1:
         queue.enqueue(i)
-    diff1=(time.time() - start1)
+    diff1 = (time.time() - start1)
     print("Stack kullanmak "+str((diff1)*1000)+" milisaniye zaman aldı.")
 
     #!Fark
-    if diff>diff1:
-        print("Linked list queueden "+str((diff-diff1)*1000)+" milisaniye daha fazla zaman aldı.")
-    elif diff1>diff:
-        print("Queue linked listten "+str((diff1-diff)*1000)+" milisaniye daha fazla zaman aldı.")
+    if diff > diff1:
+        print("Linked list queueden "+str((diff-diff1)*1000) +
+              " milisaniye daha fazla zaman aldı.")
+    elif diff1 > diff:
+        print("Queue linked listten "+str((diff1-diff)*1000) +
+              " milisaniye daha fazla zaman aldı.")
     else:
         print("Queue linked list ile aynı zamanı aldı.")
     print(list.list())
@@ -609,13 +621,14 @@ def GetAllMessages(request):
     print("BÜTÜN MESAJLAR")
     if Receptionist.Security(request):
         return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
-    
+
     start1 = time.time()
     queue = Queue()
     messages = Message.objects.all().order_by('-create')
     for i in messages:
         queue.enqueue(i)
-    print("Queue kullanmak "+str((time.time()-start1)*1000)+" milisaniye zaman aldı.")
+    print("Queue kullanmak "+str((time.time()-start1)*1000) +
+          " milisaniye zaman aldı.")
     serializer = MessageSerializer(queue.queue, many=True)
     return Response({"data": serializer.data}, status=200)
 
@@ -881,7 +894,7 @@ def Payment(request):
                         children.push(Child.id)
                     else:
                         print(adult.errors)
-            
+
             data = {"childs": children.stack, "adults": adults.stack, "room": request.data.get('room'),
                     "start": request.data.get('start'), "end": request.data.get('end'), 'user': request.user.id}
 
@@ -925,10 +938,10 @@ def MyBookings(request):
     bookings = Booking.objects.order_by('-start')
     tree = BinaryTree()
     for booking in bookings:
-        if booking.user==request.user:
+        if booking.user == request.user:
             tree.insert(booking)
-        
-    diff=(time.time() - start)
+
+    diff = (time.time() - start)
     print("Binary tree kullanmak "+str(diff*1000)+" milisaniye zaman aldı.")
     serializer = BookingSerializer(tree.treeInList(), many=True)
     return Response({"data": serializer.data}, status=200)
