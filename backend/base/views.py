@@ -211,6 +211,7 @@ class BinaryTree:
             arr.append(node.data)
             helper(node.left)
             helper(node.right)
+
         helper(self.root)
         return arr
 
@@ -369,6 +370,7 @@ def GetAllRooms(request):
               " milisaniye daha fazla zaman aldı.")
     else:
         print("Stack linked list ile aynı zamanı aldı.")
+
     serializer = RoomSerializer(stack.stack, many=True)
     return Response({"data": serializer.data}, status=200)
 
@@ -381,6 +383,7 @@ def GetAllRoomsCategorys(request):
     """Bütün oda kategorilerini getirir. (resepsiyon ve yönetici yapabilir)"""
     if Receptionist.Security(request):
         return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
+
     #!Linked List
     start = time.time()
     recep = RoomCategory.objects.all()
@@ -409,7 +412,7 @@ def GetAllRoomsCategorys(request):
               " milisaniye daha fazla zaman aldı.")
     else:
         print("Queue linked list ile aynı zamanı aldı.")
-    print(list.list())
+
     serializer = CategorySerializer(queue.queue, many=True)
     return Response({"data": serializer.data}, status=200)
 
@@ -424,7 +427,6 @@ def AddRoomCategory(request):
     """
     if Receptionist.Security(request):
         return Response({"msg_en": "You are not allowed here. 🤨", "msg_tr": "Burada bulunamazsın. 🤨"}, status=400)
-
     if request.data.get('name') == None:
         return Response({"msg_en": "You didnt enter category name. 😶", "msg_tr": "Kategori adını girmediniz. 😶"}, status=400)
     if request.data.get('max_adult') == None:
@@ -552,7 +554,7 @@ def SearchRoom(request):
     for i in allbook:
         if len(i.adults.all()) == 0:
             i.delete()
-
+    print(request.GET)
     if request.GET.get('start') == None:
         return Response({"msg_en": "You didnt enter start date. 😶", "msg_tr": "Giriş tarihini girmediniz. 😶"}, status=400)
 
@@ -574,7 +576,6 @@ def SearchRoom(request):
     """
         getirilen kategorilere sahip olan odalar getiriliyor
     """
-
     odalar = LinkedList()
 
     for i in categories:
@@ -627,7 +628,7 @@ def GetAllMessages(request):
     messages = Message.objects.all().order_by('-create')
     for i in messages:
         queue.enqueue(i)
-    print("Queue kullanmak "+str((time.time()-start1)*1000) +
+    print("Queue kullanmak "+str((time.time() - start1)*1000) +
           " milisaniye zaman aldı.")
     serializer = MessageSerializer(queue.queue, many=True)
     return Response({"data": serializer.data}, status=200)
@@ -663,10 +664,10 @@ def DeleteMessage(request, id):
     message = Message.objects.filter(id=id)
     if len(message) > 0:
         message = message[0]
+        message.delete()
+        return Response({"msg_en": "Successfully deleted message. 🌝", "msg_tr": "Mesaj başarıyla silindi. 🌝"}, status=200)
     else:
         return Response({"msg_en": "Couldnt find the message. 😥", "msg_tr": "Mesaj bulunamadı. 😥"}, status=400)
-    message.delete()
-    return Response({"msg_en": "Successfully deleted message. 🌝", "msg_tr": "Mesaj başarıyla silindi. 🌝"}, status=200)
 
 
 @api_view(['GET'])
@@ -723,6 +724,7 @@ def CreateBookingReception(request):
 
         data = {"childs": children.stack, "adults": adults.stack, "room": request.data.get(
             'room'), "start": request.data.get('start'), "end": request.data.get('end'), "user": request.user.id}
+
         booking = BookingAddSerializer(data=data, many=False)
         if booking.is_valid():
             book = booking.save()
@@ -855,6 +857,7 @@ def Payment(request):
 
     if request.data.get('adults') == None or len(request.data.get('adults')) == 0:
         return Response({"msg_en": "You didnt enter adults. 🤨", "msg_tr": "Yetişkinlerin verilerini eklemedin. 🤨"}, status=400)
+
     if request.data.get('children') == None:
         return Response({"msg_en": "You didnt enter children. 🤨", "msg_tr": "Çocukların verilerini eklemedin. 🤨"}, status=400)
     try:
